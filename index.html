@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 107 Cheat Sheet</title>
+<meta name="description" content="Interactive study guide for the FAA Part 107 commercial drone pilot exam — all five ACS areas across nine searchable sheets, with an interactive airspace diagram and print-to-packet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EFE8D6;
+  --paper-2:#E6DCC2;
+  --card:#FBF8F0;
+  --ink:#171C21;
+  --ink-2:#565E66;
+  --mag:#A31F5F;        /* sectional magenta: uncontrolled / advisory */
+  --blue:#1B4F7D;       /* sectional blue: controlled / regulatory */
+  --grn:#3F6B3A;        /* allowed */
+  --red:#A6382A;        /* prohibited / limit */
+  --rule:rgba(23,28,33,.16);
+  --rule-2:rgba(23,28,33,.32);
+  --disp:"IBM Plex Sans Condensed",'Roboto Condensed','Arial Narrow',sans-serif;
+  --body:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,'SF Mono',Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-size:15px;line-height:1.55;
+  background-image:
+    linear-gradient(rgba(23,28,33,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(23,28,33,.035) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+a{color:var(--blue)}
+
+/* ---------- masthead ---------- */
+.masthead{
+  border-bottom:2px solid var(--ink);background:var(--paper);
+  position:sticky;top:0;z-index:40;
+}
+.masthead-in{
+  max-width:1240px;margin:0 auto;padding:12px 20px;
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto}
+.brand b{
+  font-family:var(--disp);font-weight:700;font-size:23px;letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.brand span{
+  font-family:var(--mono);font-size:11px;color:var(--ink-2);letter-spacing:.08em;
+}
+.mast-tools{display:flex;gap:8px;align-items:center}
+.btn{
+  font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;background:transparent;color:var(--ink);
+  border:1.5px solid var(--ink);padding:6px 12px;cursor:pointer;border-radius:2px;
+}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn:focus-visible,a:focus-visible,.navlink:focus-visible{outline:3px solid var(--mag);outline-offset:2px}
+
+/* ---------- shell ---------- */
+.shell{max-width:1240px;margin:0 auto;padding:24px 20px 80px;display:flex;gap:32px;align-items:flex-start}
+
+/* ---------- nav: chart-style altitude brackets ---------- */
+.chartnav{width:236px;flex:0 0 236px;position:sticky;top:78px}
+.chartnav h4{
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-2);margin:0 0 10px;font-weight:500;
+}
+.navlink{
+  display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center;
+  width:100%;text-align:left;background:none;border:0;cursor:pointer;
+  padding:8px 8px 8px 0;border-top:1px solid var(--rule);color:var(--ink);
+}
+.navlink:last-child{border-bottom:1px solid var(--rule)}
+/* the bracket: sectional ceiling/floor device — top number = area, bottom = page */
+.brk{
+  font-family:var(--mono);font-size:11px;font-weight:600;text-align:center;
+  line-height:1.25;color:var(--blue);
+}
+.brk i{display:block;font-style:normal;border-bottom:1.5px solid currentColor;padding-bottom:1px}
+.brk u{display:block;text-decoration:none;padding-top:1px;color:var(--ink-2)}
+.navlink em{
+  font-style:normal;font-family:var(--disp);font-weight:600;font-size:14.5px;
+  letter-spacing:.02em;line-height:1.25;
+}
+.navlink small{display:block;font-family:var(--mono);font-size:10px;color:var(--ink-2);letter-spacing:.04em}
+.navlink.is-on{background:var(--card)}
+.navlink.is-on em{color:var(--mag)}
+.navlink.is-on .brk{color:var(--mag)}
+.navhint{font-family:var(--mono);font-size:10px;color:var(--ink-2);margin-top:14px;line-height:1.6}
+
+/* ---------- sheets ---------- */
+main{flex:1;min-width:0}
+.sheet{display:none;animation:in .18s ease-out}
+.sheet.is-on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.sheet{animation:none}}
+
+.sheet-head{border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:22px}
+.eyebrow{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mag);font-weight:600;
+}
+.sheet-head h1{
+  font-family:var(--disp);font-weight:700;font-size:34px;line-height:1.06;margin:6px 0 4px;
+  letter-spacing:-.005em;
+}
+.sheet-head p{margin:0;color:var(--ink-2);font-size:14px;max-width:62ch}
+
+h2{
+  font-family:var(--disp);font-weight:700;font-size:19px;letter-spacing:.02em;
+  margin:30px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--rule-2);
+  display:flex;align-items:baseline;gap:9px;
+}
+h2 .tag{font-family:var(--mono);font-size:10px;color:var(--ink-2);font-weight:500;letter-spacing:.08em}
+h3{font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:.04em;text-transform:uppercase;margin:18px 0 7px}
+p{margin:0 0 10px}
+ul{margin:0 0 12px;padding-left:18px}
+li{margin:0 0 5px}
+b,strong{font-weight:600}
+code,.k{font-family:var(--mono);font-size:.9em;background:rgba(163,31,95,.09);padding:1px 5px;border-radius:2px;white-space:nowrap}
+
+.card{background:var(--card);border:1px solid var(--rule-2);border-radius:3px;padding:16px 18px;margin:0 0 14px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+
+table{width:100%;border-collapse:collapse;margin:0 0 14px;font-size:13.5px;background:var(--card)}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{
+  font-family:var(--disp);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--paper-2);border-bottom:1.5px solid var(--ink);font-weight:600;
+}
+td.num,td .mono{font-family:var(--mono);font-size:12.5px}
+tr:last-child td{border-bottom:1px solid var(--rule-2)}
+
+/* callouts */
+.note{border-left:3px solid var(--blue);background:var(--card);padding:12px 16px;margin:0 0 14px}
+.note.mag{border-left-color:var(--mag)}
+.note.red{border-left-color:var(--red)}
+.note.grn{border-left-color:var(--grn)}
+.note .lbl{
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-2);display:block;margin-bottom:4px;font-weight:600;
+}
+.note p:last-child,.note ul:last-child{margin-bottom:0}
+
+/* number strip */
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:1px;background:var(--rule-2);border:1px solid var(--rule-2);margin:0 0 16px}
+.nums div{background:var(--card);padding:11px 12px}
+.nums b{display:block;font-family:var(--mono);font-size:20px;font-weight:600;color:var(--mag);line-height:1.15}
+.nums span{display:block;font-size:11.5px;color:var(--ink-2);margin-top:2px;line-height:1.35}
+
+.pill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border:1px solid currentColor;border-radius:99px;vertical-align:middle}
+.pill.b{color:var(--blue)}.pill.m{color:var(--mag)}.pill.r{color:var(--red)}.pill.g{color:var(--grn)}
+
+figure{margin:0 0 16px;background:var(--card);border:1px solid var(--rule-2);padding:14px}
+figure svg{display:block;width:100%;height:auto}
+figcaption{font-family:var(--mono);font-size:10.5px;color:var(--ink-2);margin-top:8px;letter-spacing:.03em}
+
+.footnav{display:flex;justify-content:space-between;gap:12px;margin-top:34px;padding-top:16px;border-top:2px solid var(--ink)}
+
+/* ---------- interactive airspace diagram ---------- */
+.asp{cursor:pointer}
+.asp .fill,.asp .edge{transition:opacity .15s ease,stroke-width .15s ease}
+@media (prefers-reduced-motion:reduce){.asp .fill,.asp .edge{transition:none}}
+.asp:hover .fill{opacity:.3}
+.asp:focus{outline:none}
+.asp:focus-visible .fill{opacity:.34}
+.asp:focus-visible .edge{stroke-width:4}
+#aspSvg.picked .asp{opacity:.34}
+#aspSvg.picked .asp.sel{opacity:1}
+.asp.sel .fill{opacity:.38}
+.asp.sel .edge{stroke-width:4}
+
+.asp-panel{border-top:1px solid var(--rule-2);margin-top:12px;padding-top:12px}
+.asp-head{display:flex;gap:12px;align-items:flex-start}
+.asp-key{
+  font-family:var(--disp);font-weight:700;font-size:24px;line-height:1;
+  width:44px;height:44px;flex:0 0 44px;display:flex;align-items:center;justify-content:center;
+  border:2px solid var(--ink-2);color:var(--ink-2);border-radius:2px;
+}
+.asp-key.b{border-color:var(--blue);color:var(--blue)}
+.asp-key.m{border-color:var(--mag);color:var(--mag)}
+.asp-key.g{border-color:var(--grn);color:var(--grn)}
+.asp-head h3{margin:0 0 2px;font-size:16px;text-transform:none;letter-spacing:.01em}
+.asp-head p{margin:0;font-size:13px;color:var(--ink-2);max-width:60ch}
+.asp-panel dl{margin:12px 0 0;display:grid;grid-template-columns:118px 1fr;gap:0}
+.asp-panel dl:empty{display:none}
+.asp-panel dt{
+  font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-2);
+  padding:8px 10px 8px 0;border-top:1px solid var(--rule);
+}
+.asp-panel dd{margin:0;padding:8px 0;border-top:1px solid var(--rule);font-size:13.5px}
+@media (max-width:640px){
+  .asp-panel dl{grid-template-columns:1fr}
+  .asp-panel dt{padding-bottom:0;border-top:1px solid var(--rule)}
+  .asp-panel dd{border-top:0;padding-top:2px}
+}
+
+/* ---------- chart symbol swatches ---------- */
+td.swatch{width:150px;padding:8px 10px}
+td.swatch svg{display:block;width:140px;height:40px}
+.swatch-lbl{font-family:var(--mono);font-size:10px;color:var(--ink-2);letter-spacing:.03em;margin-top:3px}
+.isym{display:inline-block;width:52px;height:15px;vertical-align:-3px;margin-right:6px}
+@media (max-width:640px){
+  td.swatch{width:120px}
+  td.swatch svg{width:108px;height:34px}
+}
+
+/* ---------- search ---------- */
+.search{
+  display:flex;align-items:center;gap:6px;background:var(--card);
+  border:1.5px solid var(--ink);border-radius:2px;padding:3px 8px;
+}
+.search .mag{font-family:var(--mono);font-size:13px;color:var(--ink-2);line-height:1}
+.search input{
+  border:0;background:transparent;outline:none;color:var(--ink);
+  font-family:var(--mono);font-size:12.5px;width:200px;padding:3px 0;
+}
+.search input::placeholder{color:var(--ink-2)}
+.search:focus-within{outline:2px solid var(--mag);outline-offset:1px}
+.hitcount{font-family:var(--mono);font-size:11px;color:var(--ink-2);min-width:52px;text-align:right;letter-spacing:.02em}
+.stepbtn{
+  border:0;background:none;cursor:pointer;color:var(--ink);
+  font-family:var(--mono);font-size:13px;line-height:1;padding:2px 3px;
+}
+.stepbtn[disabled]{opacity:.28;cursor:default}
+.results{border-top:1px solid var(--rule);background:var(--paper-2)}
+.results-in{
+  max-width:1240px;margin:0 auto;padding:8px 20px;
+  display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+}
+.results-in .lead{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.chip{
+  font-family:var(--disp);font-weight:600;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;
+  border:1px solid var(--rule-2);background:var(--card);color:var(--ink);
+  padding:4px 9px;border-radius:2px;cursor:pointer;
+}
+.chip:hover{border-color:var(--ink)}
+.chip b{font-family:var(--mono);color:var(--mag);margin-left:6px;font-weight:600}
+mark.hl{background:rgba(163,31,95,.24);color:inherit;padding:0 1px;border-radius:2px}
+mark.hl.on{background:var(--mag);color:var(--paper);box-shadow:0 0 0 2px rgba(163,31,95,.3)}
+
+@media (max-width:900px){
+  .shell{flex-direction:column;padding:16px 14px 60px;gap:18px}
+  .brand span{display:none}
+  .search{flex:1}
+  .search input{width:100%;min-width:0}
+  .chartnav{position:static;width:100%;flex:auto}
+  .navlink{padding:7px 6px 7px 0}
+  .g2,.g3{grid-template-columns:1fr}
+  .sheet-head h1{font-size:27px}
+  body{font-size:14.5px}
+}
+
+@media print{
+  body{background:#fff;font-size:10.5pt}
+  .masthead,.chartnav,.footnav,.navhint{display:none!important}
+  .shell{display:block;max-width:none;padding:0}
+  .sheet{display:block!important;page-break-after:always}
+  .card,table,figure,.note{page-break-inside:avoid}
+  h2{page-break-after:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <div class="brand">
+      <b>Part 107 Cheat Sheet</b>
+      <span>UAG &middot; REMOTE PILOT &ndash; sUAS &middot; ACS FAA-S-ACS-10B</span>
+    </div>
+    <div class="mast-tools">
+      <div class="search">
+        <span class="mag" aria-hidden="true">&#9906;</span>
+        <input id="q" type="search" placeholder="Search all nine sheets" aria-label="Search the cheat sheet" autocomplete="off" spellcheck="false">
+        <span class="hitcount" id="hitcount" aria-live="polite"></span>
+        <button class="stepbtn" id="hitprev" title="Previous match (Shift+Enter)" aria-label="Previous match" disabled>&#9650;</button>
+        <button class="stepbtn" id="hitnext" title="Next match (Enter)" aria-label="Next match" disabled>&#9660;</button>
+      </div>
+      <button class="btn" id="printbtn">Print all</button>
+    </div>
+  </div>
+  <div class="results" id="results" hidden><div class="results-in" id="results-in"></div></div>
+</header>
+
+<div class="shell">
+
+<nav class="chartnav" aria-label="Sections">
+  <h4>Areas of operation</h4>
+  <button class="navlink is-on" data-go="p1"><span class="brk"><i>EXAM</i><u>01</u></span><em>The Test<small>Format &amp; certification</small></em></button>
+  <button class="navlink" data-go="p2"><span class="brk"><i>I</i><u>02</u></span><em>Regulations<small>14 CFR 107 &amp; 89</small></em></button>
+  <button class="navlink" data-go="p3"><span class="brk"><i>II</i><u>03</u></span><em>Airspace<small>Classes &amp; authorization</small></em></button>
+  <button class="navlink" data-go="p4"><span class="brk"><i>II</i><u>04</u></span><em>Sectional Charts<small>Legend &amp; symbols</small></em></button>
+  <button class="navlink" data-go="p5"><span class="brk"><i>III</i><u>05</u></span><em>Weather<small>METAR, TAF, hazards</small></em></button>
+  <button class="navlink" data-go="p6"><span class="brk"><i>IV</i><u>06</u></span><em>Loading &amp; Performance<small>Weight, CG, battery</small></em></button>
+  <button class="navlink" data-go="p7"><span class="brk"><i>V</i><u>07</u></span><em>Operations<small>Radio, ADM, physiology</small></em></button>
+  <button class="navlink" data-go="p8"><span class="brk"><i>V</i><u>08</u></span><em>Maintenance &amp; Emergencies<small>Batteries, failures, night</small></em></button>
+  <button class="navlink" data-go="p9"><span class="brk"><i>CRAM</i><u>09</u></span><em>Night-Before Sheet<small>Numbers &amp; mnemonics</small></em></button>
+  <p class="navhint">&larr; &rarr; arrow keys page through.<br>Press <b>/</b> to search; Enter steps through matches.<br>Print all &rarr; one long study packet.</p>
+</nav>
+
+<main>
+
+<!-- ================= 01 THE TEST ================= -->
+<section class="sheet is-on" id="p1">
+  <div class="sheet-head">
+    <div class="eyebrow">Sheet 01 &middot; Before you sit down</div>
+    <h1>The Test &amp; the Certificate</h1>
+    <p>What the Unmanned Aircraft General &ndash; Small (UAG) exam looks like, and the paperwork on either side of it.</p>
+  </div>
+
+  <div class="nums">
+    <div><b>60</b><span>multiple-choice questions, 3 answer choices each</span></div>
+    <div><b>70%</b><span>to pass &mdash; 42 of 60 correct</span></div>
+    <div><b>2:00</b><span>hours allowed</span></div>
+    <div><b>$175</b><span>typical test fee, paid to the testing center</span></div>
+    <div><b>16</b><span>minimum age to hold the certificate</span></div>
+    <div><b>24</b><span>calendar months between recurrent training</span></div>
+  </div>
+
+  <h2>How the questions are weighted <span class="tag">ACS Areas of Operation</span></h2>
+  <table>
+    <tr><th>Area</th><th>Topic</th><th>Share of exam</th><th>Sheet</th></tr>
+    <tr><td class="num">I</td><td>Regulations</td><td class="num">15&ndash;25%</td><td class="num">02</td></tr>
+    <tr><td class="num">II</td><td>Airspace classification &amp; operating requirements</td><td class="num">15&ndash;25%</td><td class="num">03&ndash;04</td></tr>
+    <tr><td class="num">III</td><td>Weather</td><td class="num">11&ndash;16%</td><td class="num">05</td></tr>
+    <tr><td class="num">IV</td><td>Loading &amp; performance</td><td class="num">7&ndash;11%</td><td class="num">06</td></tr>
+    <tr><td class="num">V</td><td>Operations</td><td class="num">35&ndash;45%</td><td class="num">07&ndash;08</td></tr>
+  </table>
+  <div class="note">
+    <span class="lbl">Where the points are</span>
+    <p>Operations is the biggest single bucket and it is the one people under-study, because it looks like common sense. It isn't &mdash; it's radio phraseology, airport traffic patterns, hazardous attitudes, physiology and maintenance. Airspace and chart reading is where most failures actually happen.</p>
+  </div>
+
+  <h2>Test-day logistics <span class="tag">what happens in the room</span></h2>
+  <ul>
+    <li>Test is given at an FAA-approved <b>PSI</b> knowledge testing center. Book ahead &mdash; slots go 1&ndash;2 weeks out.</li>
+    <li>Get an <b>FAA Tracking Number (FTN)</b> first by creating an IACRA profile at iacra.faa.gov. You need it to register for the test.</li>
+    <li>Bring <b>government-issued photo ID</b> with your name, date of birth, signature, and current address.</li>
+    <li>You get the <b>FAA-CT-8080-2 Airman Knowledge Testing Supplement</b> at the center &mdash; the booklet of legends, sectional excerpts and figures the questions refer to. Download the same PDF now and practice on it so it isn't new on test day.</li>
+    <li>No notes, phone, or smartwatch. Scratch paper and a basic calculator (non-programmable, memory cleared) are provided or permitted.</li>
+    <li>You get your score immediately on an <b>Airman Knowledge Test Report (AKTR)</b>, listing the ACS codes you missed. Keep it &mdash; you need it for IACRA.</li>
+    <li>Fail? Wait <b>14 calendar days</b>, then retest (pay again).</li>
+  </ul>
+
+  <h2>The certification path <span class="tag">order matters</span></h2>
+  <table>
+    <tr><th>Step</th><th>What you do</th></tr>
+    <tr><td class="num">1</td><td>Confirm eligibility: 16+, able to read/speak/write/understand English, in a physical and mental condition to operate safely.</td></tr>
+    <tr><td class="num">2</td><td>Create an IACRA account &rarr; get your FTN.</td></tr>
+    <tr><td class="num">3</td><td>Pass the UAG knowledge test at a PSI center.</td></tr>
+    <tr><td class="num">4</td><td>File <b>FAA Form 8710-13</b> in IACRA using your AKTR / exam ID.</td></tr>
+    <tr><td class="num">5</td><td>TSA security background vetting runs automatically.</td></tr>
+    <tr><td class="num">6</td><td>Print the <b>temporary certificate</b> from IACRA (usually within days). Permanent card arrives by mail.</td></tr>
+    <tr><td class="num">7</td><td>Register each drone in <b>FAA DroneZone</b>: $5, valid 3 years, mark the registration number on the exterior.</td></tr>
+  </table>
+
+  <div class="note grn">
+    <span class="lbl">Staying current</span>
+    <p>The remote pilot certificate itself does not expire. To keep exercising its privileges you must complete free online <b>recurrent training</b> every <b>24 calendar months</b> through the FAA Safety Team course catalog &mdash; ALC-677 is the course for Part 107 certificate holders. No retest, no fee. Pilots who also hold a Part 61 certificate with a current flight review take a different version of the course; check faasafety.gov for the current course number before you sit down.</p>
+  </div>
+
+  <div class="note mag">
+    <span class="lbl">Carry with you when you fly</span>
+    <p>Remote pilot certificate &middot; photo ID &middot; proof of aircraft registration &middot; any waiver or airspace authorization you're operating under. All must be available to the FAA, NTSB, TSA or law enforcement on request &mdash; electronic copies are acceptable for registration.</p>
+  </div>
+</section>
+
+<!-- ================= 02 REGULATIONS ================= -->
+<section class="sheet" id="p2">
+  <div class="sheet-head">
+    <div class="eyebrow">Sheet 02 &middot; Area of Operation I</div>
+    <h1>Regulations</h1>
+    <p>14 CFR Part 107 (operating rules) and Part 89 (Remote ID). Most of this area is straight recall &mdash; learn the numbers cold.</p>
+  </div>
+
+  <h2>Applicability &amp; definitions <span class="tag">107.1&ndash;107.3</span></h2>
+  <ul>
+    <li>Part 107 covers civil <b>small unmanned aircraft systems</b>: less than <b>55 lb</b> total takeoff weight, including everything on board or attached.</li>
+    <li><b>sUAS</b> = the aircraft <em>plus</em> control station, links, and support equipment. <b>sUA</b> = the aircraft alone.</li>
+    <li><b>Remote pilot in command (RPIC)</b>: directly responsible for and the final authority over the operation.</li>
+    <li><b>Person manipulating the controls</b>: may fly under the direct supervision of an RPIC who can immediately take over.</li>
+    <li><b>Visual observer (VO)</b>: optional crewmember who helps see and avoid. Not required, but if used must be able to communicate with the RPIC.</li>
+    <li>Part 107 does <b>not</b> cover: recreational flyers under the exception for limited recreational operations (49 USC 44809), amateur rocketry, moored balloons/kites, public aircraft operations flown under a COA, air carrier operations.</li>
+  </ul>
+
+  <h2>Operating limitations <span class="tag">107.51 &amp; friends &mdash; memorize</span></h2>
+  <div class="nums">
+    <div><b>400 ft</b><span>max altitude AGL &mdash; or within 400 ft of a structure's uppermost limit</span></div>
+    <div><b>100 mph</b><span>max groundspeed (87 knots)</span></div>
+    <div><b>3 SM</b><span>min flight visibility from the control station</span></div>
+    <div><b>500 ft</b><span>min distance below clouds</span></div>
+    <div><b>2,000 ft</b><span>min horizontal distance from clouds</span></div>
+    <div><b>55 lb</b><span>max total takeoff weight</span></div>
+  </div>
+  <ul>
+    <li><b>Visual line of sight (107.31):</b> the RPIC and person manipulating controls must be able to see the aircraft with <b>unaided vision</b> throughout &mdash; enough to know its location, attitude, altitude and direction, see and avoid other aircraft, and confirm it doesn't endanger anyone. Corrective lenses are allowed; binoculars, telephoto and FPV goggles are not (a VO or spotter can enable FPV, but the RPIC/VO must maintain unaided VLOS).</li>
+    <li><b>One aircraft at a time (107.35):</b> a person may not operate or act as RPIC for more than one sUA simultaneously.</li>
+    <li><b>Right of way (107.37):</b> yield to <b>all</b> other aircraft. Never operate so close to another aircraft as to create a collision hazard.</li>
+    <li><b>Moving vehicles (107.25):</b> no operating from a moving aircraft ever; from a moving land or waterborne vehicle only over a <b>sparsely populated area</b> (or over water). Carrying property for compensation from a moving vehicle is prohibited.</li>
+    <li><b>Hazardous operation (107.23):</b> no dropping an object in a way that creates undue hazard to persons or property. Careless or reckless operation is prohibited &mdash; that's the catch-all the FAA enforces with.</li>
+    <li><b>Hazardous materials (107.36):</b> carrying hazmat is prohibited &mdash; and this section <b>cannot be waived</b>.</li>
+    <li><b>Structures:</b> the 400 ft AGL ceiling extends to 400 ft above a structure's uppermost limit when flying within a 400 ft radius of it &mdash; that's how tower and antenna inspections are legal.</li>
+  </ul>
+
+  <h2>Night &amp; twilight operations <span class="tag">107.29</span></h2>
+  <ul>
+    <li>Night flight is <b>allowed without a waiver</b> if the aircraft has <b>anti-collision lighting visible for at least 3 statute miles</b> with a flash rate sufficient to avoid collision.</li>
+    <li>Same lighting requirement applies during <b>civil twilight</b> (the 30 minutes before official sunrise and after official sunset, except in Alaska).</li>
+    <li>The RPIC must have completed the initial knowledge test or recurrent training that covers night operations &mdash; the current curriculum includes it.</li>
+    <li>Preflight for night must include the lighting, and the crew briefing should cover reduced depth perception and how the site looks in the dark.</li>
+  </ul>
+
+  <h2>Operations over human beings <span class="tag">107 Subpart D &mdash; 107.100&ndash;107.165</span></h2>
+  <p>Default rule: you may not fly over a person who is not directly participating, not under a covered structure, and not inside a stationary covered vehicle &mdash; unless the aircraft qualifies for a category.</p>
+  <table>
+    <tr><th>Category</th><th>Qualifies if</th><th>Over open-air assembly?</th></tr>
+    <tr><td class="num">1</td><td>Weighs <b>0.55 lb (250 g) or less</b> including everything on board, and has no exposed rotating parts that could lacerate human skin</td><td>Yes &mdash; only if the aircraft has Remote ID and it is broadcasting</td></tr>
+    <tr><td class="num">2</td><td>Impact would transfer <b>no more than 11 ft-lb</b> of kinetic energy to a human, no lacerating exposed parts, no safety defects; manufacturer files a <b>Declaration of Compliance</b></td><td>Yes &mdash; with Remote ID broadcasting</td></tr>
+    <tr><td class="num">3</td><td>Impact no more than <b>25 ft-lb</b>, no lacerating parts, no safety defects, Declaration of Compliance</td><td><b>No.</b> Only over a closed or restricted-access site where people have been notified, or transiting &mdash; no sustained flight over people</td></tr>
+    <tr><td class="num">4</td><td>Holds an <b>airworthiness certificate</b> issued under Part 21 and is maintained per its maintenance manual</td><td>Yes &mdash; with Remote ID broadcasting</td></tr>
+  </table>
+  <div class="note red">
+    <span class="lbl">Two phrases that decide these questions</span>
+    <p><b>Sustained flight</b> = hovering above, flying back and forth over, or circling over people. Merely <b>transiting</b> is treated differently. An <b>open-air assembly</b> is a gathering of people outdoors &mdash; a concert, a parade, a stadium crowd; the FAA judges it by density and how easily people could disperse, not by a headcount.</p>
+  </div>
+
+  <h2>Operations over moving vehicles <span class="tag">107.145</span></h2>
+  <ul>
+    <li>Category <b>1 and 2</b> aircraft may operate over moving vehicles.</li>
+    <li>Category <b>3</b> may only do so within a closed- or restricted-access site where everyone inside has been notified.</li>
+    <li>Category <b>4</b> may, subject to its operating limitations.</li>
+    <li>No sustained flight over moving vehicles unless the operation is inside such a site or the people in the vehicles are participants.</li>
+  </ul>
+
+  <h2>Remote ID <span class="tag">14 CFR Part 89</span></h2>
+  <p>Nearly every drone that requires registration must be able to broadcast Remote ID. Three ways to comply:</p>
+  <table>
+    <tr><th>Route</th><th>What it means</th></tr>
+    <tr><td><b>Standard Remote ID</b></td><td>Built into the aircraft at manufacture. Broadcasts from takeoff to shutdown.</td></tr>
+    <tr><td><b>Broadcast module</b></td><td>Add-on device attached to the aircraft. Requires flight <b>within visual line of sight at all times</b>; the module's serial number goes on your registration.</td></tr>
+    <tr><td><b>FRIA</b></td><td>FAA-Recognized Identification Area &mdash; a defined site (usually a community-based organization or educational field) where non-equipped aircraft may fly, staying within VLOS and inside the boundaries.</td></tr>
+  </table>
+  <p><b>Broadcast message contents:</b> aircraft ID (serial or session ID); the UA's latitude, longitude, geometric altitude and velocity; the <b>control station's</b> latitude, longitude and geometric altitude (standard RID) or the <b>takeoff location</b> (broadcast module); a time mark; and emergency status. Broadcast is over unlicensed radio spectrum &mdash; anyone with a receiver can see it. No internet connection is required.</p>
+
+  <h2>Registration &amp; marking <span class="tag">107.13, Part 48</span></h2>
+  <ul>
+    <li>Register at <b>FAA DroneZone</b>. Part 107 aircraft register individually &mdash; <b>$5 each, valid 3 years</b>, and <b>regardless of weight</b>. The 0.55 lb exemption applies only to aircraft flown exclusively under the recreational exception (49 USC 44809); a 249 g drone flown for work still has to be registered.</li>
+    <li>You must be 13+ to register; owner must be a U.S. citizen or permanent resident.</li>
+    <li>The registration number must be <b>legible on the exterior surface</b> of the aircraft.</li>
+    <li>Proof of registration must be available to authorities during operation (paper or electronic).</li>
+    <li>Registration status changes (sale, destruction, address change) must be reported to the FAA.</li>
+  </ul>
+
+  <h2>Accident reporting <span class="tag">107.9 &mdash; classic exam question</span></h2>
+  <div class="note red">
+    <span class="lbl">Within 10 calendar days</span>
+    <p>Report to the FAA if the operation results in either:</p>
+    <ul>
+      <li><b>Serious injury</b> to any person, or any loss of consciousness &mdash; the FAA benchmark is an injury requiring hospitalization, equivalent to Level 3 or higher on the Abbreviated Injury Scale.</li>
+      <li><b>Property damage of at least $500</b> to repair or replace, at fair market value, to property <em>other than</em> the small unmanned aircraft itself.</li>
+    </ul>
+    <p>Report through FAA DroneZone or the local Flight Standards District Office (FSDO). NTSB notification is separate and applies to more serious events.</p>
+  </div>
+
+  <h2>Alcohol &amp; drugs <span class="tag">107.27, 91.17, 91.19</span></h2>
+  <ul>
+    <li>No operating within <b>8 hours</b> of consuming alcohol ("8 hours bottle to throttle").</li>
+    <li>No operating with a blood alcohol concentration of <b>0.04</b> or greater.</li>
+    <li>No operating while under the influence of any drug that affects faculties in a way contrary to safety &mdash; that includes legal prescriptions and over-the-counter antihistamines.</li>
+    <li>Refusing a test or a conviction for a drug/alcohol offense is grounds for denial or revocation of the certificate.</li>
+  </ul>
+
+  <h2>Preflight &amp; condition for safe operation <span class="tag">107.15, 107.49</span></h2>
+  <ul>
+    <li>No airworthiness certificate is required, but the RPIC must determine the sUAS is in a <b>condition for safe operation</b> before and during flight, and must discontinue the flight if it isn't.</li>
+    <li>Required preflight actions: assess the operating environment (local weather, airspace and flight restrictions, location of persons and property, other hazards); brief participants on operating conditions, emergency procedures, contingencies, roles and hazards; verify all links work; confirm sufficient <b>power for the intended flight plus reserve</b>; verify objects attached or carried are secure and don't affect flight characteristics or controllability.</li>
+  </ul>
+
+  <h2>Waivers &amp; authorizations <span class="tag">107.200, 107.205</span></h2>
+  <p>Apply through <b>FAA DroneZone</b> (Certificate of Waiver, or airspace authorization). Show how you'll achieve an equivalent level of safety. Apply well in advance &mdash; 90 days is the FAA's recommended lead time.</p>
+  <table>
+    <tr><th>Waivable</th><th>Not waivable</th></tr>
+    <tr><td>107.25 operation from a moving vehicle<br>107.29 anti-collision lighting for night ops<br>107.31 visual line of sight<br>107.33 visual observer duties<br>107.35 one aircraft per pilot<br>107.37(a) yielding right of way<br>107.39 operation over human beings<br>107.41 operation in controlled airspace<br>107.51 operating limitations (altitude, speed, visibility, cloud clearance)<br>107.145 operations over moving vehicles</td>
+    <td>107.36 carriage of hazardous material<br>Registration requirements<br>Remote pilot certification requirements<br>The 55 lb weight limit<br>Alcohol and drug prohibitions<br>Careless or reckless operation</td></tr>
+  </table>
+
+  <h2>Carriage of property for compensation <span class="tag">no single section &mdash; 107.25, 107.31 + air carrier limits</span></h2>
+  <ul>
+    <li>Allowed under Part 107, with conditions: total weight of aircraft plus payload stays under <b>55 lb</b>.</li>
+    <li>The flight must be <b>entirely within the boundaries of a single state</b> &mdash; no interstate transport, none between Hawaiian islands, none within the District of Columbia.</li>
+    <li>No carriage of property for compensation from a moving vehicle or aircraft.</li>
+    <li>No hazardous materials.</li>
+  </ul>
+
+  <h2>In-flight emergency &amp; inspection authority <span class="tag">107.21, 107.7</span></h2>
+  <ul>
+    <li><b>107.21:</b> in an in-flight emergency the RPIC may deviate from any rule in Part 107 to the extent necessary to meet that emergency. If asked by the Administrator, you must send a <b>written report</b> of the deviation.</li>
+    <li><b>107.7:</b> on request you must present your certificate, registration and any waiver, and make the sUAS available for inspection or testing, to the FAA, NTSB, TSA or any federal, state or local law enforcement officer.</li>
+    <li>The FAA may test or re-examine a certificate holder at any time if there's reason to question qualifications.</li>
+  </ul>
+
+  <h2>Other rules that show up <span class="tag">easy points</span></h2>
+  <ul>
+    <li><b>ATC transponders (107.52) and ADS-B Out (107.53) are prohibited</b> on sUAS under Part 107 unless otherwise authorized by the Administrator &mdash; they would clutter the system.</li>
+    <li>No sUA may be operated in a manner that interferes with operations and traffic patterns at any airport, heliport or seaplane base.</li>
+    <li>Local and state laws may add restrictions (privacy, trespass, park rules), but only the FAA regulates the airspace itself.</li>
+    <li>Automated or autonomous flight is permitted, but a remote pilot must always be able to <b>take direct control</b> or otherwise terminate flight.</li>
+  </ul>
+</section>
+
+<!-- ================= 03 AIRSPACE ================= -->
+<section class="sheet" id="p3">
+  <div class="sheet-head">
+    <div class="eyebrow">Sheet 03 &middot; Area of Operation II</div>
+    <h1>Airspace &amp; Operating Requirements</h1>
+    <p>Which box of sky you're in, whether you need permission, and what the weather has to be doing before you launch.</p>
+  </div>
+
+  <figure class="asp-fig">
+    <svg viewBox="0 0 720 400" id="aspSvg" role="group" aria-label="Interactive cross-section of United States airspace classes. Select a class for its definition.">
+      <defs>
+        <pattern id="hatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="0" x2="0" y2="7" stroke="#1B4F7D" stroke-width="1.1" opacity=".35"/>
+        </pattern>
+      </defs>
+
+      <!-- CLASS A -->
+      <g class="asp" data-cls="A" tabindex="0" role="button" aria-label="Class A airspace">
+        <rect class="fill" x="30" y="24" width="670" height="30" fill="#1B4F7D" opacity=".12"/>
+        <line class="edge" x1="30" y1="54" x2="700" y2="54" stroke="#1B4F7D" stroke-width="2"/>
+        <text x="42" y="44" font-family="IBM Plex Sans Condensed, sans-serif" font-size="13" font-weight="700" fill="#1B4F7D">CLASS A &#160;18,000 MSL &#8211; FL600 &#160;&#183;&#160; no sUAS, ever</text>
+      </g>
+
+      <!-- CLASS E -->
+      <g class="asp" data-cls="E" tabindex="0" role="button" aria-label="Class E airspace">
+        <rect class="fill" x="30" y="56" width="670" height="150" fill="#A31F5F" opacity=".06"/>
+        <text x="640" y="80" text-anchor="end" font-family="IBM Plex Sans Condensed, sans-serif" font-size="13" font-weight="700" fill="#A31F5F">CLASS E</text>
+        <text x="640" y="96" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#565E66">controlled &#183; authorization needed only in surface areas</text>
+        <g class="edge" stroke="#A31F5F" stroke-width="1.6" fill="none">
+          <line x1="30" y1="278" x2="120" y2="278" stroke-dasharray="7 5"/>
+          <line x1="120" y1="278" x2="150" y2="302"/>
+          <line x1="150" y1="302" x2="330" y2="302" stroke-dasharray="7 5"/>
+          <line x1="490" y1="302" x2="700" y2="302" stroke-dasharray="7 5"/>
+        </g>
+        <text x="34" y="272" font-family="IBM Plex Mono, monospace" font-size="10" fill="#A31F5F">E floor 1,200 AGL</text>
+        <text x="188" y="296" font-family="IBM Plex Mono, monospace" font-size="10" fill="#A31F5F">E floor 700 AGL (magenta vignette on chart)</text>
+      </g>
+
+      <!-- CLASS G (drawn under B/C/D so those take the click in their own areas) -->
+      <g class="asp" data-cls="G" tabindex="0" role="button" aria-label="Class G airspace">
+        <rect class="fill" x="30" y="304" width="670" height="36" fill="#3F6B3A" opacity=".07"/>
+        <text x="44" y="330" font-family="IBM Plex Sans Condensed, sans-serif" font-size="13" font-weight="700" fill="#3F6B3A">CLASS G &#8212; uncontrolled, no authorization required</text>
+      </g>
+
+      <!-- CLASS C -->
+      <g class="asp" data-cls="C" tabindex="0" role="button" aria-label="Class C airspace">
+        <rect class="fill" x="90" y="240" width="120" height="100" fill="#A31F5F" opacity=".13"/>
+        <rect class="fill" x="60" y="240" width="30" height="55" fill="#A31F5F" opacity=".13"/>
+        <path class="edge" d="M60 295 L60 240 L210 240 L210 340 M90 340 L90 295 L60 295" fill="none" stroke="#A31F5F" stroke-width="2.5"/>
+        <text x="140" y="258" text-anchor="middle" font-family="IBM Plex Sans Condensed, sans-serif" font-size="13" font-weight="700" fill="#A31F5F">CLASS C</text>
+        <text x="140" y="272" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#A31F5F">5 NM core + 10 NM shelf</text>
+      </g>
+
+      <!-- CLASS B -->
+      <g class="asp" data-cls="B" tabindex="0" role="button" aria-label="Class B airspace">
+        <rect class="fill" x="330" y="150" width="160" height="190" fill="#1B4F7D" opacity=".16"/>
+        <rect class="fill" x="290" y="150" width="40" height="120" fill="#1B4F7D" opacity=".16"/>
+        <rect class="fill" x="490" y="150" width="40" height="120" fill="#1B4F7D" opacity=".16"/>
+        <rect class="fill" x="250" y="150" width="40" height="70" fill="#1B4F7D" opacity=".16"/>
+        <rect class="fill" x="530" y="150" width="40" height="70" fill="#1B4F7D" opacity=".16"/>
+        <path class="edge" d="M250 220 L250 150 L570 150 L570 220 L530 220 L530 270 L490 270 L490 340 M330 340 L330 270 L290 270 L290 220 L250 220" fill="none" stroke="#1B4F7D" stroke-width="2.5"/>
+        <text x="410" y="172" text-anchor="middle" font-family="IBM Plex Sans Condensed, sans-serif" font-size="14" font-weight="700" fill="#1B4F7D">CLASS B</text>
+        <text x="410" y="188" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#1B4F7D">surface &#8211; 10,000 MSL</text>
+        <text x="410" y="330" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#1B4F7D">authorization required</text>
+      </g>
+
+      <!-- CLASS D -->
+      <g class="asp" data-cls="D" tabindex="0" role="button" aria-label="Class D airspace">
+        <rect class="fill" x="600" y="262" width="90" height="78" fill="url(#hatch)"/>
+        <rect class="edge" x="600" y="262" width="90" height="78" fill="none" stroke="#1B4F7D" stroke-width="2" stroke-dasharray="8 5"/>
+        <text x="645" y="282" text-anchor="middle" font-family="IBM Plex Sans Condensed, sans-serif" font-size="13" font-weight="700" fill="#1B4F7D">CLASS D</text>
+        <text x="645" y="296" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#1B4F7D">sfc &#8211; ~2,500 AGL</text>
+      </g>
+
+      <!-- ground -->
+      <g pointer-events="none">
+        <line x1="30" y1="340" x2="700" y2="340" stroke="#171C21" stroke-width="2.5"/>
+        <rect x="30" y="341" width="670" height="14" fill="#3F6B3A" opacity=".18"/>
+        <path d="M140 340 l6 -12 l6 12 z" fill="#171C21"/>
+        <path d="M410 340 l6 -12 l6 12 z" fill="#171C21"/>
+        <path d="M645 340 l6 -12 l6 12 z" fill="#171C21"/>
+        <text x="700" y="376" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#565E66">click or tab to a block &#8594; details below</text>
+      </g>
+    </svg>
+
+    <div class="asp-panel" id="aspPanel" aria-live="polite">
+      <div class="asp-head">
+        <span class="asp-key" id="aspKey">?</span>
+        <div>
+          <h3 id="aspTitle">Pick a class</h3>
+          <p id="aspSub">Click any block in the diagram &mdash; or tab to it and press Enter &mdash; for what it is, how it's charted, and whether you need permission.</p>
+        </div>
+      </div>
+      <dl id="aspRows"></dl>
+    </div>
+    <figcaption>Not to scale. Blue = towered / regulatory. Magenta = the boundary you meet where control ends. Everything unshaded below the magenta dashes is Class G.</figcaption>
+  </figure>
+
+  <h2>The classes, as a remote pilot sees them <span class="tag">UA.II.A</span></h2>
+  <table>
+    <tr><th>Class</th><th>Where it is</th><th>On the chart</th><th>Can you fly?</th></tr>
+    <tr><td><b>A</b></td><td>18,000 ft MSL up to FL600, everywhere</td><td>Not depicted</td><td>No &mdash; irrelevant to sUAS in practice</td></tr>
+    <tr><td><b>B</b></td><td>Surface to ~10,000 MSL around the busiest airports; "upside-down wedding cake"</td><td><svg class="isym" viewBox="0 0 52 15" role="img" aria-label="solid blue line"><line x1="1" y1="7.5" x2="51" y2="7.5" stroke="#1B4F7D" stroke-width="3.5"/></svg><b>Solid blue</b> lines with stacked altitude figures, e.g. <span class="mono">100/40</span> = ceiling 10,000 MSL, floor 4,000 MSL</td><td>Yes, with <b>ATC authorization</b> (LAANC or DroneZone)</td></tr>
+    <tr><td><b>C</b></td><td>Surface to ~4,000 AGL; 5 NM inner core plus a 10 NM shelf from 1,200&ndash;4,000 AGL</td><td><svg class="isym" viewBox="0 0 52 15" role="img" aria-label="solid magenta line"><line x1="1" y1="7.5" x2="51" y2="7.5" stroke="#A31F5F" stroke-width="3.5"/></svg><b>Solid magenta</b> circles, figures like <span class="mono">41/12</span></td><td>Yes, with authorization</td></tr>
+    <tr><td><b>D</b></td><td>Surface to ~2,500 AGL around a tower-controlled field, roughly 4 NM radius</td><td><svg class="isym" viewBox="0 0 52 15" role="img" aria-label="dashed blue line"><line x1="1" y1="7.5" x2="51" y2="7.5" stroke="#1B4F7D" stroke-width="2.5" stroke-dasharray="7 5"/></svg><b>Dashed blue</b> outline; ceiling in a dashed box, in hundreds of feet MSL, e.g. <span class="mono">[25]</span></td><td>Yes, with authorization</td></tr>
+    <tr><td><b>E</b></td><td>All other controlled airspace. Floor is usually 700 AGL, 1,200 AGL, or 14,500 MSL. Some airports have a Class E <b>surface area</b></td><td><svg class="isym" style="width:52px" viewBox="0 0 52 15" role="img" aria-label="magenta vignette over dashed magenta"><defs><linearGradient id="vigMi" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#A31F5F" stop-opacity="0.55"/><stop offset="1" stop-color="#A31F5F" stop-opacity="0"/></linearGradient></defs><rect x="1" y="1" width="50" height="6" fill="url(#vigMi)"/><line x1="1" y1="8" x2="51" y2="8" stroke="#A31F5F" stroke-width="1"/><line x1="1" y1="13" x2="51" y2="13" stroke="#A31F5F" stroke-width="1.6" stroke-dasharray="6 4"/></svg>Magenta <b>vignette</b> (fuzzy edge) = 700 AGL floor. Blue vignette = 1,200 AGL floor. Dashed magenta = E to the surface. Blue &ldquo;zipper&rdquo; = floor changes</td><td>Yes. Authorization is required <b>only</b> where Class E extends to the surface</td></tr>
+    <tr><td><b>G</b></td><td>Uncontrolled. Everything from the surface up to the base of the overlying E</td><td>Nothing &mdash; it's what's left</td><td>Yes, <b>no authorization needed</b>. Still obey all other Part 107 rules</td></tr>
+  </table>
+
+  <div class="note mag">
+    <span class="lbl">Read the numbers right</span>
+    <p>Airspace ceilings and floors on sectionals are given in <b>hundreds of feet MSL</b>. So <span class="mono">70</span> above a line means 7,000 ft MSL, and <span class="mono">SFC</span> means surface. Your <b>400 ft limit is AGL</b>. To compare the two, add the field or terrain elevation to your AGL number. A drone at 400 AGL over ground that sits at 1,200 MSL is at 1,600 MSL.</p>
+  </div>
+
+  <h2>Getting authorization <span class="tag">107.41 &mdash; LAANC &amp; DroneZone</span></h2>
+  <ul>
+    <li>Controlled airspace (B, C, D, and E to the surface) requires <b>prior ATC authorization</b>. You cannot call the tower and get verbal permission &mdash; the tower isn't the approving authority.</li>
+    <li><b>LAANC</b> (Low Altitude Authorization and Notification Capability) gives near-real-time approval through an FAA-approved app, up to the altitude ceilings published on the <b>UAS Facility Maps (UASFM)</b>.</li>
+    <li>UASFM grids show the maximum altitude the FAA will auto-approve in each square &mdash; often 400, 300, 200, 100, or <b>0</b> ft. A <b>0-ft grid</b> means no automatic approval; you must apply through DroneZone for further coordination, which takes ~30&ndash;90 days.</li>
+    <li>LAANC also handles <b>further coordination</b> requests and gives you a confirmation you must have available during flight.</li>
+    <li>Recreational flyers also use LAANC, but under a different set of fixed altitudes &mdash; don't confuse the two on the test.</li>
+  </ul>
+
+  <h2>Basic weather minimums <span class="tag">UA.II.B &mdash; the same in every class</span></h2>
+  <figure>
+    <svg viewBox="0 0 720 250" role="img" aria-label="Diagram of the 400 foot altitude limit and cloud clearance requirements">
+      <!-- cloud -->
+      <g fill="#1B4F7D" opacity=".18">
+        <ellipse cx="470" cy="52" rx="62" ry="26"/><ellipse cx="530" cy="60" rx="48" ry="22"/><ellipse cx="420" cy="62" rx="44" ry="20"/>
+      </g>
+      <line x1="360" y1="84" x2="600" y2="84" stroke="#1B4F7D" stroke-width="1.5"/>
+      <text x="600" y="52" text-anchor="end" font-family="IBM Plex Sans Condensed, sans-serif" font-size="13" font-weight="700" fill="#1B4F7D">CLOUD</text>
+      <!-- vertical 500 -->
+      <line x1="410" y1="86" x2="410" y2="150" stroke="#A31F5F" stroke-width="1.6"/>
+      <text x="420" y="122" font-family="IBM Plex Mono, monospace" font-size="12" fill="#A31F5F">500 ft below</text>
+      <!-- horizontal 2000 -->
+      <line x1="180" y1="150" x2="360" y2="150" stroke="#A31F5F" stroke-width="1.6" stroke-dasharray="6 4"/>
+      <text x="184" y="142" font-family="IBM Plex Mono, monospace" font-size="12" fill="#A31F5F">2,000 ft horizontal</text>
+      <!-- drone -->
+      <g stroke="#171C21" stroke-width="2" fill="none">
+        <line x1="150" y1="150" x2="210" y2="150"/><line x1="180" y1="144" x2="180" y2="156"/>
+        <circle cx="150" cy="150" r="9"/><circle cx="210" cy="150" r="9"/>
+      </g>
+      <!-- ground and 400 ft -->
+      <line x1="40" y1="215" x2="690" y2="215" stroke="#171C21" stroke-width="2.5"/>
+      <rect x="40" y="216" width="650" height="12" fill="#3F6B3A" opacity=".18"/>
+      <line x1="90" y1="150" x2="90" y2="215" stroke="#171C21" stroke-width="1.4"/>
+      <line x1="80" y1="150" x2="100" y2="150" stroke="#171C21" stroke-width="1.4"/>
+      <text x="46" y="180" font-family="IBM Plex Mono, monospace" font-size="12" fill="#171C21">400 ft</text>
+      <text x="46" y="196" font-family="IBM Plex Mono, monospace" font-size="12" fill="#171C21">AGL</text>
+      <!-- structure exception -->
+      <rect x="600" y="120" width="26" height="95" fill="#171C21" opacity=".8"/>
+      <line x1="560" y1="105" x2="670" y2="105" stroke="#A6382A" stroke-width="1.6" stroke-dasharray="6 4"/>
+      <text x="672" y="102" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="#A6382A">400 ft above the structure</text>
+      <text x="672" y="204" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#565E66">within a 400 ft radius of it</text>
+    </svg>
+    <figcaption>Minimums are identical in Class B, C, D, E and G: 3 SM visibility from the control station, 500 ft below and 2,000 ft horizontally from any cloud.</figcaption>
+  </figure>
+
+  <h2>Special use airspace <span class="tag">know what each one means</span></h2>
+  <table>
+    <tr><th>Type</th><th>Chart symbol</th><th>What it means for you</th></tr>
+    <tr><td><b>Prohibited (P-)</b></td><td>Blue hatched outline</td><td>No flight at any time. National security &mdash; e.g. P-56 over Washington DC.</td></tr>
+    <tr><td><b>Restricted (R-)</b></td><td>Blue hatched outline</td><td>Hazards to aircraft (artillery, guided missiles). Entry requires permission from the controlling agency; when "hot" it's off limits.</td></tr>
+    <tr><td><b>Warning (W-)</b></td><td>Blue hatched, offshore</td><td>Same hazards as restricted but in international waters, from 3 NM outward.</td></tr>
+    <tr><td><b>Military Operations Area (MOA)</b></td><td>Magenta hatched</td><td>Military training. Not prohibited &mdash; but exercise extreme caution and check status.</td></tr>
+    <tr><td><b>Alert Area (A-)</b></td><td>Magenta hatched</td><td>High volume of pilot training or unusual activity. Everybody is responsible for collision avoidance.</td></tr>
+    <tr><td><b>Controlled Firing Area (CFA)</b></td><td>Not charted</td><td>Activities suspended when a spotter sees an aircraft. That's why it isn't charted.</td></tr>
+    <tr><td><b>National Security Area (NSA)</b></td><td>Dashed magenta</td><td>Voluntary avoidance requested; can be made prohibited by NOTAM.</td></tr>
+    <tr><td><b>Military Training Route (MTR)</b></td><td>Grey lines, IR/VR + number</td><td>Fast, low military traffic. <b>4 digits = at or below 1,500 AGL</b> (e.g. VR1207). <b>3 digits = above 1,500 AGL</b> (e.g. IR644). The 4-digit routes are the ones in your altitude band.</td></tr>
+    <tr><td><b>Wildlife / noise-sensitive areas</b></td><td>Blue dotted line</td><td>Request to stay 2,000 ft above the surface over wildlife refuges, parks and similar.</td></tr>
+  </table>
+
+  <h2>Temporary Flight Restrictions <span class="tag">91.137&ndash;91.145, 99.7</span></h2>
+  <ul>
+    <li>TFRs are published by <b>NOTAM</b>, not printed on sectionals. Check them every flight &mdash; tfr.faa.gov, a briefing app, or Flight Service at 1-800-WX-BRIEF.</li>
+    <li>Common triggers: disasters and hazards, aerial demonstrations and airshows, presidential and VIP movement, space operations, firefighting.</li>
+    <li><b>Stadium TFR:</b> 3 NM radius, up to 3,000 ft AGL, from one hour before to one hour after the event, for MLB, NFL, NCAA Division I football, and major NASCAR races at stadiums seating 30,000 or more.</li>
+    <li>Washington DC has a permanent <b>Special Flight Rules Area (SFRA)</b> with a 15 NM inner <b>Flight Restricted Zone (FRZ)</b> &mdash; drones are effectively banned inside the FRZ.</li>
+  </ul>
+
+  <h2>NOTAMs &amp; sources <span class="tag">UA.II.B</span></h2>
+  <ul>
+    <li>NOTAM = <b>Notice to Air Missions</b>. Categories you may see: NOTAM (D) for distant dissemination, FDC NOTAMs for regulatory items including TFRs and chart changes, and pointer, military and international NOTAMs.</li>
+    <li>Get them from Flight Service (1-800-WX-BRIEF), notams.aim.faa.gov, or an EFB/briefing app.</li>
+    <li>Preflight familiarization also means checking for local flight restrictions, obstacles and the location of people and property &mdash; the FAA treats "I didn't know about the TFR" as a preflight failure.</li>
+  </ul>
+
+  <h2>Potential flight hazards near airports <span class="tag">UA.II.B</span></h2>
+  <ul>
+    <li>Manned aircraft are lowest and slowest near airports &mdash; that's where you're most likely to conflict. Stay clear of approach and departure paths and traffic patterns even when you're legally authorized to be there.</li>
+    <li><b>Wake turbulence:</b> wingtip vortices sink and drift downwind; a light sUAS can be flipped by them. Avoid the area behind and below departing or arriving heavy aircraft.</li>
+    <li><b>Rotorcraft</b> generate strong downwash and often operate off-pattern at low altitude.</li>
+    <li><b>Laser illumination</b> of an aircraft is a federal crime; if your aircraft or crew is illuminated, report it to ATC or the FAA.</li>
+    <li>Unlit obstacles: towers, guy wires, cranes, power lines &mdash; guy wires are nearly invisible on camera. Survey the site on foot.</li>
+  </ul>
+</section>
+
+<!-- ================= 04 CHARTS ================= -->
+<section class="sheet" id="p4">
+  <div class="sheet-head">
+    <div class="eyebrow">Sheet 04 &middot; Area of Operation II</div>
+    <h1>Reading the Sectional</h1>
+    <p>You will be handed chart excerpts in the testing supplement and asked what you're allowed to do at a specific spot. This is the highest-yield hour of study on the whole exam.</p>
+  </div>
+
+  <div class="note">
+    <span class="lbl">Method for every chart question</span>
+    <ul>
+      <li><b>1.</b> Find the exact point named in the question &mdash; usually a town, an airport, or a lat/long.</li>
+      <li><b>2.</b> Identify the airspace class at the surface there: solid blue, solid magenta, dashed blue, dashed magenta, magenta vignette, or nothing.</li>
+      <li><b>3.</b> Check what's on top of it &mdash; a shelf with a floor above 400 AGL doesn't stop you from flying underneath it, but a surface area does mean you need authorization.</li>
+      <li><b>4.</b> Sweep for special use airspace, MTRs, obstacles and parachute/glider symbols nearby.</li>
+      <li><b>5.</b> Convert: your 400 ft AGL vs. the chart's hundreds-of-feet MSL.</li>
+    </ul>
+  </div>
+
+  <h2>Line and color decoder <span class="tag">the six patterns that matter</span></h2>
+  <table>
+    <tr><th>What you see on the chart</th><th>What it is</th><th>Authorization?</th></tr>
+
+    <tr>
+      <td class="swatch">
+        <svg viewBox="0 0 140 40" role="img" aria-label="Solid blue line with stacked altitude numbers">
+          <line x1="6" y1="20" x2="134" y2="20" stroke="#1B4F7D" stroke-width="4"/>
+          <text x="70" y="14" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#1B4F7D">100</text>
+          <line x1="58" y1="26" x2="82" y2="26" stroke="#1B4F7D" stroke-width="1"/>
+          <text x="70" y="37" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#1B4F7D">40</text>
+        </svg>
+        <div class="swatch-lbl">solid blue + stacked figures</div>
+      </td>
+      <td><b>Class B.</b> Figures are the ceiling over the floor, in hundreds of ft MSL &mdash; <span class="mono">100/40</span> = 10,000 over 4,000.</td>
+      <td>Yes</td>
+    </tr>
+
+    <tr>
+      <td class="swatch">
+        <svg viewBox="0 0 140 40" role="img" aria-label="Solid magenta line with stacked altitude numbers">
+          <line x1="6" y1="20" x2="134" y2="20" stroke="#A31F5F" stroke-width="4"/>
+          <text x="70" y="14" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#A31F5F">41</text>
+          <line x1="60" y1="26" x2="80" y2="26" stroke="#A31F5F" stroke-width="1"/>
+          <text x="70" y="37" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#A31F5F">SFC</text>
+        </svg>
+        <div class="swatch-lbl">solid magenta + stacked figures</div>
+      </td>
+      <td><b>Class C.</b> Same stacked-figure convention, e.g. <span class="mono">41/12</span>.</td>
+      <td>Yes</td>
+    </tr>
+
+    <tr>
+      <td class="swatch">
+        <svg viewBox="0 0 140 40" role="img" aria-label="Dashed blue line with a boxed ceiling number">
+          <line x1="6" y1="20" x2="134" y2="20" stroke="#1B4F7D" stroke-width="3" stroke-dasharray="9 6"/>
+          <rect x="56" y="6" width="28" height="15" fill="none" stroke="#1B4F7D" stroke-width="1" stroke-dasharray="3 2"/>
+          <text x="70" y="17" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#1B4F7D">25</text>
+        </svg>
+        <div class="swatch-lbl">dashed blue + boxed ceiling</div>
+      </td>
+      <td><b>Class D.</b> Ceiling sits in a dashed box in hundreds of ft MSL &mdash; <span class="mono">[25]</span> = 2,500.</td>
+      <td>Yes</td>
+    </tr>
+
+    <tr>
+      <td class="swatch">
+        <svg viewBox="0 0 140 40" role="img" aria-label="Dashed magenta line">
+          <line x1="6" y1="20" x2="134" y2="20" stroke="#A31F5F" stroke-width="3" stroke-dasharray="9 6"/>
+        </svg>
+        <div class="swatch-lbl">dashed magenta</div>
+      </td>
+      <td><b>Class E to the surface.</b> This is the one E boundary that needs permission.</td>
+      <td>Yes</td>
+    </tr>
+
+    <tr>
+      <td class="swatch">
+        <svg viewBox="0 0 140 40" role="img" aria-label="Fuzzy magenta vignette band fading inward">
+          <defs>
+            <linearGradient id="vigM" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0" stop-color="#A31F5F" stop-opacity="0.55"/>
+              <stop offset="1" stop-color="#A31F5F" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <rect x="6" y="6" width="128" height="16" fill="url(#vigM)"/>
+          <line x1="6" y1="22" x2="134" y2="22" stroke="#A31F5F" stroke-width="1.4"/>
+          <text x="70" y="35" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#565E66">soft edge points INTO the airspace</text>
+        </svg>
+        <div class="swatch-lbl">magenta vignette</div>
+      </td>
+      <td><b>Class E floor at 700 AGL</b>; Class G below it. The fuzz fades toward the inside.</td>
+      <td>No</td>
+    </tr>
+
+    <tr>
+      <td class="swatch">
+        <svg viewBox="0 0 140 40" role="img" aria-label="Fuzzy blue vignette band fading inward">
+          <defs>
+            <linearGradient id="vigB" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0" stop-color="#1B4F7D" stop-opacity="0.5"/>
+              <stop offset="1" stop-color="#1B4F7D" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <rect x="6" y="6" width="128" height="16" fill="url(#vigB)"/>
+          <line x1="6" y1="22" x2="134" y2="22" stroke="#1B4F7D" stroke-width="1.4"/>
+        </svg>
+        <div class="swatch-lbl">blue vignette</div>
+      </td>
+      <td><b>Class E floor at 1,200 AGL</b>; Class G below. Same fade, blue instead of magenta.</td>
+      <td>No</td>
+    </tr>
+
+    <tr>
+      <td class="swatch">
+        <svg viewBox="0 0 140 40" role="img" aria-label="Blue zipper line where the Class E floor changes">
+          <line x1="6" y1="20" x2="134" y2="20" stroke="#1B4F7D" stroke-width="1.4"/>
+          <g stroke="#1B4F7D" stroke-width="1.4">
+            <line x1="20" y1="14" x2="20" y2="26"/><line x1="34" y1="14" x2="34" y2="26"/>
+            <line x1="48" y1="14" x2="48" y2="26"/><line x1="62" y1="14" x2="62" y2="26"/>
+            <line x1="76" y1="14" x2="76" y2="26"/><line x1="90" y1="14" x2="90" y2="26"/>
+            <line x1="104" y1="14" x2="104" y2="26"/><line x1="118" y1="14" x2="118" y2="26"/>
+          </g>
+        </svg>
+        <div class="swatch-lbl">blue or magenta &ldquo;zipper&rdquo;</div>
+      </td>
+      <td>Boundary where the Class E floor <b>changes</b> from one value to another.</td>
+      <td>Depends which side</td>
+    </tr>
+  </table>
+  <div class="note mag">
+    <span class="lbl">The vignette trap</span>
+    <p>The two fuzzy bands are the most-missed symbol on the exam. The soft gradient always fades <b>toward the inside</b> of the area it defines, and it marks a Class E floor <em>above</em> the ground &mdash; so the surface underneath is Class G and needs <b>no</b> authorization. Only the crisp <b>dashed magenta</b> line brings Class E all the way down, and that one does.</p>
+  </div>
+
+  <h2>The airport data block <span class="tag">read it top to bottom</span></h2>
+  <div class="card">
+    <p style="font-family:var(--mono);font-size:14px;line-height:1.9;margin-bottom:12px">
+      HOPEDALE MUNI &nbsp;<span style="color:var(--ink-2)">&larr; airport name</span><br>
+      CT &ndash; 118.7 &nbsp;&#9733; &nbsp;<span style="color:var(--ink-2)">&larr; control tower freq; star = rotating beacon sunset&ndash;sunrise</span><br>
+      ATIS 124.6 &nbsp;<span style="color:var(--ink-2)">&larr; automated terminal information service</span><br>
+      241 &nbsp;L &nbsp;72 &nbsp;122.95 &nbsp;<span style="color:var(--ink-2)">&larr; field elevation MSL &middot; lighting &middot; longest runway in hundreds of ft &middot; UNICOM</span>
+    </p>
+    <ul>
+      <li><b>Field elevation</b> is always MSL. <b>Runway length</b> is in hundreds of feet, so <span class="mono">72</span> = 7,200 ft.</li>
+      <li><b>L</b> = lighting available sunset to sunrise. <b>*L</b> = lighting is part-time or pilot-controlled. No L = no runway lighting.</li>
+      <li><b>&#9737;</b> next to the airport symbol = rotating beacon. <b>NFCT</b> = non-federal control tower.</li>
+      <li>A frequency followed by a small <b>C</b> in a circle is the <b>CTAF</b> &mdash; the frequency you monitor at a non-towered field.</li>
+      <li><b>Blue airport symbol = towered. Magenta airport symbol = non-towered.</b> That one color rule answers a lot of questions.</li>
+      <li>Runways drawn to shape means a hard-surfaced runway 1,500&ndash;8,069 ft. A plain circle means services are limited or it's a soft field. Tick marks around the circle = fuel available during normal business hours.</li>
+      <li><b>R</b> in a box, or "NO SVFR", and other notes appear next to the data block &mdash; read them.</li>
+    </ul>
+  </div>
+
+  <h2>Symbols worth memorizing <span class="tag">testing supplement legend</span></h2>
+  <table>
+    <tr><th>Symbol</th><th>Meaning</th><th>Why you care</th></tr>
+    <tr><td>Obstruction: single or double tick tower with elevation figures</td><td>Top number = height <b>MSL</b>; number in parentheses = height <b>AGL</b></td><td>An obstruction over 1,000 ft AGL uses the tall symbol. Both figures appear &mdash; don't mix them up</td></tr>
+    <tr><td>Obstruction with a small lightning-bolt/star cap</td><td>High-intensity lighting on the obstacle</td><td>Night ops planning</td></tr>
+    <tr><td>Group of towers</td><td>Multiple obstacles, highest one labeled</td><td>Antenna farms and guy wires</td></tr>
+    <tr><td>Parachute symbol (canopy)</td><td>Parachute jumping area</td><td>Jumpers descend through your altitude band</td></tr>
+    <tr><td>Glider symbol</td><td>Glider operations</td><td>Quiet, unpowered, hard to hear coming</td></tr>
+    <tr><td>Ultralight symbol</td><td>Ultralight activity</td><td>Low, slow traffic in your airspace</td></tr>
+    <tr><td>Magenta flag</td><td>Visual checkpoint used by VFR pilots</td><td>Manned traffic converges over it</td></tr>
+    <tr><td>Blue "H" in a circle</td><td>Heliport</td><td>Rotorcraft arriving from any direction</td></tr>
+    <tr><td>Box with <span class="mono">MODE C</span> ring</td><td>30 NM veil around Class B</td><td>Affects manned aircraft equipment, not your authorization</td></tr>
+    <tr><td>Maximum Elevation Figure (large bold number in a quadrangle)</td><td>Highest terrain or obstacle in that quadrangle, in <b>thousands and hundreds of feet MSL</b>: <span class="mono">2<sup>1</sup></span> = 2,100 ft MSL</td><td>Quick terrain awareness</td></tr>
+  </table>
+
+  <h2>Scale, distance and position <span class="tag">UA.II.A</span></h2>
+  <ul>
+    <li>Sectional charts are drawn at <b>1:500,000</b>. VFR terminal area charts are <b>1:250,000</b> and show more detail around Class B.</li>
+    <li>Latitude runs east&ndash;west lines and is measured north/south; longitude runs north&ndash;south and is measured east/west. Tick marks along the lines are in minutes; <b>1 minute of latitude = 1 nautical mile</b>.</li>
+    <li>Use the scale bar in the chart margin or the latitude ticks to estimate distance &mdash; a common question format is "how far is X from Y".</li>
+    <li>Chart altitudes and runway headings use <b>magnetic</b> north; the isogonic line (dashed magenta) gives the variation.</li>
+  </ul>
+
+  <div class="note grn">
+    <span class="lbl">Practice this way</span>
+    <p>Open the FAA-CT-8080-2 testing supplement PDF and work only from the figure numbers, not from an app. Pick a random spot on each sectional excerpt and answer out loud: class at the surface, ceiling and floor, authorization or not, nearest hazard. Twenty repetitions of that drill is worth more than rereading any study guide.</p>
+  </div>
+</section>
+
+<!-- ================= 05 WEATHER ================= -->
+<section class="sheet" id="p5">
+  <div class="sheet-head">
+    <div class="eyebrow">Sheet 05 &middot; Area of Operation III</div>
+    <h1>Weather</h1>
+    <p>Where to get it, how to decode it, and how each phenomenon degrades a small unmanned aircraft specifically.</p>
+  </div>
+
+  <h2>Sources of weather <span class="tag">UA.III.A</span></h2>
+  <ul>
+    <li><b>aviationweather.gov</b> (Aviation Weather Center) &mdash; METARs, TAFs, graphical forecasts.</li>
+    <li><b>Flight Service:</b> 1-800-WX-BRIEF for a standard, abbreviated or outlook briefing. A <b>standard briefing</b> is the full picture; an <b>abbreviated</b> one updates or fills a gap; an <b>outlook</b> is for a flight 6+ hours away.</li>
+    <li><b>ASOS/AWOS</b> &mdash; automated surface/weather observing systems at the field, broadcast on a discrete frequency or by phone. This is your best source for conditions right where you're launching.</li>
+    <li>Only an <b>official</b> source counts for planning. A weather app on your phone is a supplement, not a briefing.</li>
+    <li>Remember that airport observations are taken at the field &mdash; microclimates a few miles away can differ, and sUAS fly in the lowest, most turbulent layer no observation describes well.</li>
+  </ul>
+
+  <h2>Decoding a METAR <span class="tag">aviation routine weather report &middot; ~hourly</span></h2>
+  <div class="card">
+    <p style="font-family:var(--mono);font-size:14px;letter-spacing:.02em;margin-bottom:12px">METAR KBOS 271853Z AUTO 24015G25KT 3SM +RA BKN008 OVC020 18/17 A2992 RMK AO2</p>
+    <table style="margin-bottom:0">
+      <tr><th>Element</th><th>Reads as</th></tr>
+      <tr><td class="num">KBOS</td><td>Station identifier (ICAO)</td></tr>
+      <tr><td class="num">271853Z</td><td>27th day of the month, 1853 <b>Zulu (UTC)</b>. Convert to local &mdash; EST is Z&minus;5, EDT is Z&minus;4</td></tr>
+      <tr><td class="num">AUTO</td><td>Fully automated observation, no human augmentation. <span class="mono">COR</span> would mean corrected</td></tr>
+      <tr><td class="num">24015G25KT</td><td>Wind from <b>240&deg; true</b> at 15 knots, gusting 25. <span class="mono">VRB</span> = variable, <span class="mono">00000KT</span> = calm</td></tr>
+      <tr><td class="num">3SM</td><td>Visibility 3 statute miles &mdash; exactly at your Part 107 minimum</td></tr>
+      <tr><td class="num">+RA</td><td>Heavy rain. Intensity: <span class="mono">&minus;</span> light, none = moderate, <span class="mono">+</span> heavy. <span class="mono">VC</span> = in the vicinity</td></tr>
+      <tr><td class="num">BKN008</td><td>Broken at 800 ft <b>AGL</b>. Sky cover in eighths: <span class="mono">SKC/CLR</span> clear, <span class="mono">FEW</span> 1&ndash;2, <span class="mono">SCT</span> 3&ndash;4, <span class="mono">BKN</span> 5&ndash;7, <span class="mono">OVC</span> 8. <span class="mono">VV004</span> = vertical visibility, sky obscured</td></tr>
+      <tr><td class="num">18/17</td><td>Temperature 18&deg;C, dew point 17&deg;C. A 1&deg; spread means moisture is close to condensing &mdash; expect fog or low cloud</td></tr>
+      <tr><td class="num">A2992</td><td>Altimeter 29.92 inches of mercury</td></tr>
+      <tr><td class="num">RMK AO2</td><td>Remarks. AO2 = automated station with a precipitation discriminator</td></tr>
+    </table>
+  </div>
+  <div class="note mag">
+    <span class="lbl">Ceiling</span>
+    <p>The <b>ceiling</b> is the lowest <span class="mono">BKN</span> or <span class="mono">OVC</span> layer, or the vertical visibility into an obscuration. <span class="mono">FEW</span> and <span class="mono">SCT</span> are not ceilings. In the example above the ceiling is 800 ft &mdash; which means you cannot stay 500 ft below the clouds and still fly at any useful altitude.</p>
+  </div>
+  <h2>METAR shorthand <span class="tag">the codes, in the order they are written</span></h2>
+  <div class="note">
+    <span class="lbl">Build order</span>
+    <p>A weather group is assembled left to right in a fixed sequence: <b>intensity &rarr; descriptor &rarr; precipitation &rarr; obscuration &rarr; other</b>. Read it the same way and any string decodes. <span class="mono">+TSRA</span> is heavy / thunderstorm / rain. <span class="mono">-SHSN</span> is light / showers / snow. <span class="mono">VCFG</span> is fog in the vicinity. Up to three groups can appear, separated by spaces.</p>
+  </div>
+
+  <div class="grid g2">
+    <div>
+      <table>
+        <tr><th colspan="2">Intensity &amp; proximity</th></tr>
+        <tr><td class="num">&minus;</td><td>Light</td></tr>
+        <tr><td class="num">(none)</td><td>Moderate</td></tr>
+        <tr><td class="num">+</td><td>Heavy &mdash; or "well developed" for dust/sand whirls and funnel clouds</td></tr>
+        <tr><td class="num">VC</td><td>In the vicinity: roughly 5 to 10 SM from the field, not at it</td></tr>
+      </table>
+
+      <table>
+        <tr><th colspan="2">Descriptors</th></tr>
+        <tr><td class="num">MI</td><td>Shallow</td></tr>
+        <tr><td class="num">PR</td><td>Partial</td></tr>
+        <tr><td class="num">BC</td><td>Patches</td></tr>
+        <tr><td class="num">DR</td><td>Low drifting</td></tr>
+        <tr><td class="num">BL</td><td>Blowing</td></tr>
+        <tr><td class="num">SH</td><td>Showers</td></tr>
+        <tr><td class="num">TS</td><td>Thunderstorm</td></tr>
+        <tr><td class="num">FZ</td><td>Freezing &mdash; supercooled, freezes on contact</td></tr>
+      </table>
+
+      <table>
+        <tr><th colspan="2">Precipitation</th></tr>
+        <tr><td class="num">DZ</td><td>Drizzle</td></tr>
+        <tr><td class="num">RA</td><td>Rain</td></tr>
+        <tr><td class="num">SN</td><td>Snow</td></tr>
+        <tr><td class="num">SG</td><td>Snow grains</td></tr>
+        <tr><td class="num">IC</td><td>Ice crystals</td></tr>
+        <tr><td class="num">PL</td><td>Ice pellets (sleet)</td></tr>
+        <tr><td class="num">GR</td><td>Hail</td></tr>
+        <tr><td class="num">GS</td><td>Small hail or snow pellets</td></tr>
+        <tr><td class="num">UP</td><td>Unknown precipitation &mdash; an automated station that cannot identify it</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <table>
+        <tr><th colspan="2">Obscurations</th></tr>
+        <tr><td class="num">BR</td><td>Mist &mdash; visibility 5/8 to 6 SM</td></tr>
+        <tr><td class="num">FG</td><td>Fog &mdash; visibility below 5/8 SM</td></tr>
+        <tr><td class="num">FU</td><td>Smoke</td></tr>
+        <tr><td class="num">HZ</td><td>Haze</td></tr>
+        <tr><td class="num">DU</td><td>Widespread dust</td></tr>
+        <tr><td class="num">SA</td><td>Sand</td></tr>
+        <tr><td class="num">VA</td><td>Volcanic ash</td></tr>
+        <tr><td class="num">PY</td><td>Spray</td></tr>
+      </table>
+
+      <table>
+        <tr><th colspan="2">Other phenomena</th></tr>
+        <tr><td class="num">PO</td><td>Dust or sand whirls</td></tr>
+        <tr><td class="num">SQ</td><td>Squalls</td></tr>
+        <tr><td class="num">FC</td><td>Funnel cloud &mdash; <span class="mono">+FC</span> is a tornado or waterspout</td></tr>
+        <tr><td class="num">SS</td><td>Sandstorm</td></tr>
+        <tr><td class="num">DS</td><td>Duststorm</td></tr>
+      </table>
+
+      <table>
+        <tr><th colspan="2">Sky cover &amp; cloud type</th></tr>
+        <tr><td class="num">SKC / CLR</td><td>Clear. <span class="mono">CLR</span> means an automated station detected nothing below 12,000 ft</td></tr>
+        <tr><td class="num">FEW</td><td>Few &mdash; 1 to 2 eighths</td></tr>
+        <tr><td class="num">SCT</td><td>Scattered &mdash; 3 to 4 eighths</td></tr>
+        <tr><td class="num">BKN</td><td>Broken &mdash; 5 to 7 eighths. <b>A ceiling</b></td></tr>
+        <tr><td class="num">OVC</td><td>Overcast &mdash; 8 eighths. <b>A ceiling</b></td></tr>
+        <tr><td class="num">VV</td><td>Vertical visibility into an obscured sky. Also a ceiling</td></tr>
+        <tr><td class="num">CB / TCU</td><td>Cumulonimbus / towering cumulus, appended to the layer</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h2>Report abbreviations around the weather group <span class="tag">everything else in the string</span></h2>
+  <div class="grid g2">
+    <div>
+      <table>
+        <tr><th colspan="2">Report type &amp; wind</th></tr>
+        <tr><td class="num">METAR</td><td>Routine observation, roughly hourly</td></tr>
+        <tr><td class="num">SPECI</td><td>Special observation &mdash; conditions changed significantly between hours</td></tr>
+        <tr><td class="num">AUTO</td><td>Fully automated, no human augmentation</td></tr>
+        <tr><td class="num">COR</td><td>Corrected report</td></tr>
+        <tr><td class="num">KT</td><td>Knots. Winds are <b>true</b> north in a written report</td></tr>
+        <tr><td class="num">G</td><td>Gusting, e.g. <span class="mono">24015G25KT</span></td></tr>
+        <tr><td class="num">VRB</td><td>Variable direction</td></tr>
+        <tr><td class="num">00000KT</td><td>Calm</td></tr>
+        <tr><td class="num">180V240</td><td>Direction varying between those two bearings</td></tr>
+      </table>
+    </div>
+    <div>
+      <table>
+        <tr><th colspan="2">Visibility, pressure &amp; remarks</th></tr>
+        <tr><td class="num">10SM</td><td>Visibility in statute miles. <span class="mono">M1/4SM</span> means less than a quarter mile</td></tr>
+        <tr><td class="num">R22L/1000FT</td><td>Runway visual range for that runway</td></tr>
+        <tr><td class="num">A2992</td><td>Altimeter setting in inches of mercury</td></tr>
+        <tr><td class="num">RMK</td><td>Everything after this is remarks</td></tr>
+        <tr><td class="num">AO1 / AO2</td><td>Automated station without / with a precipitation discriminator</td></tr>
+        <tr><td class="num">SLP132</td><td>Sea level pressure, 1013.2 mb</td></tr>
+        <tr><td class="num">PK WND</td><td>Peak wind since the last report</td></tr>
+        <tr><td class="num">WSHFT</td><td>Wind shift, often the moment a front passed</td></tr>
+        <tr><td class="num">T01830172</td><td>Temperature and dew point to a tenth of a degree</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="note mag">
+    <span class="lbl">Decode these three and you can decode any of them</span>
+    <ul>
+      <li><span class="mono">-FZDZ BR</span> &mdash; light freezing drizzle with mist. Icing on the airframe and visibility near minimums.</li>
+      <li><span class="mono">+TSRAGR</span> &mdash; heavy thunderstorm with rain and hail. Stay 20 NM away.</li>
+      <li><span class="mono">VCSH BKN012</span> &mdash; showers in the vicinity, broken ceiling at 1,200 ft. The ceiling leaves you 700 ft of usable altitude once you hold 500 ft below the clouds.</li>
+    </ul>
+  </div>
+
+  <h2>Decoding a TAF <span class="tag">terminal aerodrome forecast</span></h2>
+  <ul>
+    <li>Issued <b>four times a day</b>, generally valid for <b>24 hours</b> (some 30), and applies within about <b>5 statute miles</b> of the airport.</li>
+    <li>Header format: <span class="mono">TAF KBOS 271120Z 2712/2812</span> &mdash; issued the 27th at 1120Z, valid from the 27th at 1200Z to the 28th at 1200Z.</li>
+    <li>Change groups: <b>FM</b> (rapid change at that time, replaces everything after), <b>TEMPO</b> (temporary, less than an hour at a time and less than half the period), <b>BECMG</b> (gradual change), <b>PROB30/40</b> (probability of the condition occurring).</li>
+    <li>Winds in a TAF, like a METAR, are <b>true</b> north. Winds given by a tower or ATIS over the radio are <b>magnetic</b>.</li>
+  </ul>
+
+  <h2>Atmosphere fundamentals <span class="tag">the numbers behind the questions</span></h2>
+  <div class="nums">
+    <div><b>15&deg;C</b><span>standard sea-level temperature (59&deg;F)</span></div>
+    <div><b>29.92</b><span>standard sea-level pressure, in. Hg (1013.2 mb)</span></div>
+    <div><b>2&deg;C</b><span>standard temperature lapse per 1,000 ft (3.5&deg;F)</span></div>
+    <div><b>1 in. Hg</b><span>pressure drop per 1,000 ft of altitude</span></div>
+  </div>
+  <ul>
+    <li>Air moves from <b>high to low pressure</b>. Around a <b>high</b> it flows clockwise and outward (descending, stable, generally good weather); around a <b>low</b> it flows counterclockwise and inward (rising air, clouds, precipitation).</li>
+    <li>The three ingredients for any weather: <b>uneven heating</b> of the Earth's surface, atmospheric <b>pressure differences</b>, and the Coriolis effect from the Earth's rotation.</li>
+    <li><b>Density altitude</b> = pressure altitude corrected for non-standard temperature. High, hot and humid all <b>raise</b> density altitude, thinning the air. Thin air means less rotor thrust, longer takeoff, weaker climb and shorter endurance &mdash; the single most-tested performance concept.</li>
+  </ul>
+
+  <h2>Stability <span class="tag">tells you what kind of day it is</span></h2>
+  <table>
+    <tr><th></th><th>Stable air</th><th>Unstable air</th></tr>
+    <tr><td>Clouds</td><td>Stratiform, layered</td><td>Cumuliform, vertical development</td></tr>
+    <tr><td>Precipitation</td><td>Steady, continuous</td><td>Showery, intermittent</td></tr>
+    <tr><td>Visibility</td><td>Poor &mdash; haze and smoke trapped</td><td>Good &mdash; mixing clears it out</td></tr>
+    <tr><td>Turbulence</td><td>Smooth, but watch for low-level wind shear</td><td>Bumpy, gusty, thermals</td></tr>
+    <tr><td>Cause</td><td>Warm air moving over a cold surface; a temperature inversion</td><td>Cold air over a warm surface; strong surface heating</td></tr>
+  </table>
+  <p>A <b>temperature inversion</b> is warm air sitting above cool air &mdash; it caps the atmosphere, trapping haze, smoke and pollutants, and it commonly forms on clear, calm nights. Expect poor visibility at the surface at dawn.</p>
+
+  <h2>Moisture, fog and clouds <span class="tag">UA.III.B</span></h2>
+  <ul>
+    <li>Clouds and fog form when the temperature and dew point <b>converge</b> and the air is cooled to saturation with condensation nuclei present. Watch the METAR spread: within 2&ndash;3&deg;C is your warning.</li>
+    <li><b>Radiation fog</b> &mdash; clear, calm night, ground cools; classic dawn fog in low areas.</li>
+    <li><b>Advection fog</b> &mdash; moist air moves horizontally over a cooler surface; coastal, and it needs wind so it can persist all day.</li>
+    <li><b>Upslope fog</b> &mdash; moist stable air pushed up rising terrain.</li>
+    <li><b>Steam fog</b> &mdash; cold air over warm water; comes with low-level turbulence.</li>
+    <li><b>Precipitation-induced fog</b> &mdash; warm rain falling into cool air.</li>
+    <li>The base of cumulus clouds can be estimated: divide the temperature/dew point spread in &deg;C by 2.5 and multiply by 1,000 to get feet AGL.</li>
+  </ul>
+
+  <h2>Thunderstorms &amp; wind shear <span class="tag">the ones that will destroy the aircraft</span></h2>
+  <ul>
+    <li>Three ingredients: <b>sufficient moisture, an unstable lapse rate, and a lifting action</b>.</li>
+    <li>Three stages: <b>cumulus</b> (updrafts building), <b>mature</b> (precipitation at the surface, updrafts <em>and</em> downdrafts &mdash; the most hazardous stage), <b>dissipating</b> (downdrafts dominate, anvil top).</li>
+    <li>Never fly within <b>20 NM</b> of a thunderstorm. Gust fronts run far ahead of the visible storm.</li>
+    <li><b>Microburst:</b> a violent, concentrated downdraft &mdash; downdrafts to 6,000 fpm, horizontal winds up to 45 knots, headwind-to-tailwind shear of up to 90 knots. Typically lasts about <b>15 minutes</b>. Nothing an sUAS can do about one except not be there.</li>
+    <li><b>Low-level wind shear</b> can occur with or without a storm: near fronts, near inversions, near terrain. A sudden change in headwind means a sudden change in lift.</li>
+  </ul>
+
+  <h2>Fronts <span class="tag">what to expect as one passes</span></h2>
+  <table>
+    <tr><th>Front</th><th>Behavior</th><th>Weather</th></tr>
+    <tr><td><b>Cold</b></td><td>Cold air undercuts warm; moves fast</td><td>Cumuliform clouds, showers or thunderstorms, gusty shifting winds, sharp temperature drop, then rapid clearing and good visibility</td></tr>
+    <tr><td><b>Warm</b></td><td>Warm air overrides cold; moves slowly</td><td>Stratiform clouds, drizzle, poor visibility and haze over a long period, gradual temperature rise</td></tr>
+    <tr><td><b>Stationary</b></td><td>Neither mass moves</td><td>Prolonged conditions of a mixed type; can sit for days</td></tr>
+    <tr><td><b>Occluded</b></td><td>Cold front overtakes a warm front</td><td>Mixed cumuliform and stratiform, wide area of precipitation</td></tr>
+  </table>
+  <p>The reliable sign a front has passed: <b>the wind shifts</b>. Also expect a pressure change and a temperature/dew point change.</p>
+
+  <h2>Local winds and how they hit a small aircraft <span class="tag">UA.III.B</span></h2>
+  <ul>
+    <li><b>Sea breeze</b> blows from water to land in the afternoon; <b>land breeze</b> reverses at night.</li>
+    <li><b>Mountain/valley winds:</b> upslope during the day as slopes heat, downslope at night. Expect strong downdrafts on the leeward side of ridges and rotor turbulence downwind of obstacles.</li>
+    <li>Wind flowing over and around buildings creates <b>mechanical turbulence and rotors</b> &mdash; the biggest practical hazard for a light drone in an urban site. Expect it up to several times the building's height downwind.</li>
+    <li>Wind reduces endurance sharply: flying downwind out and upwind back can strand you. Plan the return leg into wind and budget reserve.</li>
+    <li>Cold reduces battery capacity; heat degrades battery life and motor performance. Icing on rotors or airframe adds weight and destroys lift.</li>
+  </ul>
+</section>
+
+<!-- ================= 06 LOADING ================= -->
+<section class="sheet" id="p6">
+  <div class="sheet-head">
+    <div class="eyebrow">Sheet 06 &middot; Area of Operation IV</div>
+    <h1>Loading &amp; Performance</h1>
+    <p>The smallest area of the exam and the easiest to bank. It's mostly cause-and-effect: add weight or move the balance, and here is what happens.</p>
+  </div>
+
+  <h2>Weight <span class="tag">UA.IV.A</span></h2>
+  <ul>
+    <li>The <b>55 lb</b> limit is the aircraft plus everything on board or attached at takeoff &mdash; battery, payload, camera, gimbal, parachute, mounts.</li>
+    <li>Manufacturer limits are lower and they are the real limit. Never exceed the maximum gross takeoff weight in the operating manual.</li>
+    <li>Effects of an overloaded sUAS: <b>reduced climb rate, reduced maneuverability, higher stall speed for fixed-wing, longer takeoff and landing distance, shorter endurance, greater stress on the airframe, longer stopping distance in a hover-to-stop</b>.</li>
+    <li>An overloaded aircraft is much less able to recover from a gust or an evasive maneuver &mdash; the margin you need to yield right of way disappears.</li>
+  </ul>
+
+  <h2>Balance and center of gravity <span class="tag">UA.IV.A</span></h2>
+  <ul>
+    <li><b>Center of gravity (CG)</b> is the point where the aircraft would balance. Manufacturers publish CG limits; payloads must be mounted so the CG stays inside them.</li>
+    <li><b>CG too far forward:</b> nose-heavy; the aircraft pitches down, controls feel heavy, harder to flare or hover level, motors work unevenly.</li>
+    <li><b>CG too far aft:</b> tail-heavy; unstable and twitchy in pitch, prone to oscillation, hardest to recover.</li>
+    <li>A multirotor compensates for an off-CG load by running some motors harder &mdash; that eats battery, generates heat and cuts flight time even when it flies "fine".</li>
+    <li>Adding a payload to one side, or a slung/suspended load, shifts the CG <b>in flight</b> as it swings. Anything carried must be securely attached and must not adversely affect flight characteristics or controllability.</li>
+    <li>If the manufacturer publishes a weight and balance procedure, follow it. If not, load conservatively, test-hover at low altitude, and check the aircraft's behavior before committing to the mission.</li>
+  </ul>
+
+  <h2>Load factor <span class="tag">stress in turns</span></h2>
+  <ul>
+    <li><b>Load factor</b> is the ratio of the load supported by the aircraft to its actual weight, expressed in Gs. Straight and level = 1G.</li>
+    <li>Load factor increases with bank angle: <b>30&deg; &asymp; 1.15G, 45&deg; &asymp; 1.41G, 60&deg; = 2G</b>. At 60&deg; the aircraft effectively weighs twice as much.</li>
+    <li>Consequences of high load factor: increased stall speed for fixed-wing sUAS, higher power demand, structural stress, and rapid battery drain.</li>
+    <li>Abrupt control inputs and steep turns near obstacles are how small aircraft get away from pilots. Smooth is efficient.</li>
+  </ul>
+
+  <h2>Performance factors <span class="tag">what changes the envelope</span></h2>
+  <table>
+    <tr><th>Factor</th><th>Effect on performance</th></tr>
+    <tr><td>High density altitude (hot, high, humid)</td><td>Less air for rotors and props to bite &mdash; reduced thrust, slower climb, shorter endurance, longer takeoff roll</td></tr>
+    <tr><td>Low temperature</td><td>Better aerodynamic performance, but <b>reduced battery capacity</b>; a cold LiPo can drop voltage suddenly under load</td></tr>
+    <tr><td>High humidity</td><td>Moist air is less dense than dry air &mdash; slightly reduced performance, plus moisture risk to electronics</td></tr>
+    <tr><td>Wind and gusts</td><td>Higher power draw holding position, drift, sharply reduced endurance flying upwind</td></tr>
+    <tr><td>Payload weight</td><td>Directly proportional loss of endurance and agility</td></tr>
+    <tr><td>Propeller condition</td><td>Nicks, chips and mismatched props cost thrust and cause vibration that degrades video and sensors</td></tr>
+  </table>
+
+  <h2>Endurance and reserve <span class="tag">plan it, don't guess it</span></h2>
+  <ul>
+    <li>Part 107 requires you to verify there is <b>enough power to operate for the intended operational time and to land safely</b> &mdash; a reserve is not optional.</li>
+    <li>Published flight times are for a hover, at sea level, in still air, with no payload, on a new battery. Real endurance in wind with a camera is much less.</li>
+    <li>Battery capacity fades with cycle count and age. Track cycles per battery.</li>
+    <li>Plan return-to-home altitude and route before launch, and know the low-battery behavior of your specific aircraft &mdash; some auto-land where they are, some climb first.</li>
+  </ul>
+</section>
+
+<!-- ================= 07 OPERATIONS ================= -->
+<section class="sheet" id="p7">
+  <div class="sheet-head">
+    <div class="eyebrow">Sheet 07 &middot; Area of Operation V</div>
+    <h1>Operations &mdash; Airport, Crew &amp; Human Factors</h1>
+    <p>The largest area on the exam: radio procedures, airport traffic, decision-making, and what your own body does to your judgment.</p>
+  </div>
+
+  <h2>Radio communication procedures <span class="tag">UA.V.A</span></h2>
+  <ul>
+    <li>Part 107 does not require a radio, but you're expected to know how airport communications work so you can monitor and stay out of the way.</li>
+    <li><b>CTAF</b> (Common Traffic Advisory Frequency) is the frequency pilots self-announce on at a non-towered airport. It may be a UNICOM, MULTICOM or the tower frequency when the tower is closed.</li>
+    <li><b>UNICOM</b> is a non-government air/ground radio station &mdash; usually the FBO &mdash; that may provide airport advisories.</li>
+    <li>Self-announce format: <b>who you're calling, who you are, where you are, what you intend to do</b>. Example: "Hopedale traffic, drone operating two miles south of the field, surface to four hundred feet, Hopedale."</li>
+    <li>Manned pilots use the <b>phonetic alphabet</b> (Alfa, Bravo, Charlie, Delta, Echo, Foxtrot, Golf, Hotel, India, Juliett, Kilo, Lima, Mike, November, Oscar, Papa, Quebec, Romeo, Sierra, Tango, Uniform, Victor, Whiskey, X-ray, Yankee, Zulu) and 24-hour <b>Zulu time</b>.</li>
+    <li>At a towered airport, ATC's authorization for your operation comes through LAANC or DroneZone &mdash; the tower does not issue it, though you may be asked for a phone number for coordination.</li>
+  </ul>
+
+  <h2>Airport operations <span class="tag">UA.V.B &mdash; where the manned traffic will be</span></h2>
+  <figure>
+    <svg viewBox="0 0 720 300" role="img" aria-label="Standard left-hand airport traffic pattern with entry, downwind, base and final legs">
+      <!-- runway -->
+      <rect x="300" y="120" width="130" height="26" fill="#171C21" opacity=".85" transform="rotate(-8 365 133)"/>
+      <text x="300" y="170" font-family="IBM Plex Mono, monospace" font-size="11" fill="#565E66">RWY 27 &mdash; number = magnetic heading &divide; 10</text>
+      <!-- pattern -->
+      <path d="M470 90 L200 90 L160 150 L200 210 L470 210 L520 150 Z" fill="none" stroke="#1B4F7D" stroke-width="2" stroke-dasharray="9 6"/>
+      <!-- 45 entry -->
+      <path d="M600 30 L470 90" fill="none" stroke="#A31F5F" stroke-width="2"/>
+      <polygon points="470,90 484,86 481,98" fill="#A31F5F"/>
+      <text x="606" y="28" font-family="IBM Plex Sans Condensed, sans-serif" font-size="12" font-weight="700" fill="#A31F5F">45&deg; entry</text>
+      <text x="330" y="82" text-anchor="middle" font-family="IBM Plex Sans Condensed, sans-serif" font-size="12" font-weight="700" fill="#1B4F7D">DOWNWIND</text>
+      <text x="150" y="150" text-anchor="middle" font-family="IBM Plex Sans Condensed, sans-serif" font-size="12" font-weight="700" fill="#1B4F7D">BASE</text>
+      <text x="335" y="226" text-anchor="middle" font-family="IBM Plex Sans Condensed, sans-serif" font-size="12" font-weight="700" fill="#1B4F7D">FINAL</text>
+      <text x="545" y="150" text-anchor="middle" font-family="IBM Plex Sans Condensed, sans-serif" font-size="12" font-weight="700" fill="#1B4F7D">CROSSWIND</text>
+      <text x="360" y="270" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#565E66">All turns to the LEFT unless the airport is marked right traffic (RP in the chart data block)</text>
+      <!-- wind -->
+      <path d="M60 240 L130 240" stroke="#3F6B3A" stroke-width="2"/>
+      <polygon points="130,240 118,235 118,245" fill="#3F6B3A"/>
+      <text x="60" y="232" font-family="IBM Plex Mono, monospace" font-size="11" fill="#3F6B3A">wind &mdash; aircraft take off and land into it</text>
+    </svg>
+    <figcaption>Standard left-hand traffic pattern. Manned aircraft descend through your altitude on base and final, and climb through it on departure.</figcaption>
+  </figure>
+  <ul>
+    <li>Runway numbers are the <b>magnetic heading rounded to the nearest 10, with the last zero dropped</b>: Runway 27 points about 270&deg;. Opposite ends differ by 18 (e.g. 9 and 27).</li>
+    <li>Aircraft take off and land <b>into the wind</b>. Given a wind of 270&deg; at 15, expect traffic using Runway 27.</li>
+    <li>A <b>segmented circle</b> and a <b>wind sock/tetrahedron</b> near the field show wind and pattern direction. Right-hand traffic is noted with <span class="mono">RP</span> in the chart data.</li>
+    <li>Standard pattern altitude for light aircraft is about 1,000 ft AGL, but they are far lower on the approach and departure ends &mdash; where you'll be.</li>
+    <li>Never operate in a way that interferes with operations and traffic patterns at any airport, heliport or seaplane base &mdash; that's a rule, not advice.</li>
+    <li>Helicopters and medical flights operate off-pattern and often below 500 ft. Hospitals, highways and disaster scenes deserve extra caution.</li>
+  </ul>
+
+  <h2>Aeronautical decision-making <span class="tag">UA.V.D &mdash; expect several questions</span></h2>
+  <table>
+    <tr><th>Hazardous attitude</th><th>Sounds like</th><th>Antidote</th></tr>
+    <tr><td><b>Anti-authority</b></td><td>"Don't tell me what to do &mdash; the rules are for someone else."</td><td>Follow the rules. They are usually right.</td></tr>
+    <tr><td><b>Impulsivity</b></td><td>"Do something &mdash; quickly!"</td><td>Not so fast. Think first.</td></tr>
+    <tr><td><b>Invulnerability</b></td><td>"It won't happen to me."</td><td>It could happen to me.</td></tr>
+    <tr><td><b>Macho</b></td><td>"I can do it &mdash; watch this."</td><td>Taking chances is foolish.</td></tr>
+    <tr><td><b>Resignation</b></td><td>"What's the use? It's out of my hands."</td><td>I'm not helpless. I can make a difference.</td></tr>
+  </table>
+  <div class="grid g2">
+    <div class="card">
+      <h3>IMSAFE &mdash; check yourself</h3>
+      <ul style="margin-bottom:0"><li><b>I</b>llness</li><li><b>M</b>edication</li><li><b>S</b>tress</li><li><b>A</b>lcohol</li><li><b>F</b>atigue</li><li><b>E</b>motion (or eating)</li></ul>
+    </div>
+    <div class="card">
+      <h3>PAVE &mdash; check the flight</h3>
+      <ul style="margin-bottom:0"><li><b>P</b>ilot</li><li><b>A</b>ircraft</li><li>en<b>V</b>ironment</li><li><b>E</b>xternal pressures</li></ul>
+    </div>
+    <div class="card">
+      <h3>DECIDE &mdash; work the problem</h3>
+      <ul style="margin-bottom:0"><li><b>D</b>etect the change</li><li><b>E</b>stimate its significance</li><li><b>C</b>hoose the objective</li><li><b>I</b>dentify options</li><li><b>D</b>o the action</li><li><b>E</b>valuate the result</li></ul>
+    </div>
+    <div class="card">
+      <h3>3P &mdash; the loop in flight</h3>
+      <ul style="margin-bottom:0"><li><b>P</b>erceive the hazard</li><li><b>P</b>rocess the risk</li><li><b>P</b>erform the mitigation</li></ul>
+    </div>
+  </div>
+  <ul>
+    <li><b>Risk</b> is assessed on likelihood &times; severity. A common exam framing: identify the hazard (a condition), then the associated risk (the consequence).</li>
+    <li><b>Crew resource management (CRM)</b> is the effective use of all available resources &mdash; the VO, the client, the manual, ATC, checklists &mdash; not just the RPIC's own judgment. Brief every participant before launch: roles, emergency procedures, contingencies, hazards.</li>
+    <li><b>Situational awareness</b> is an accurate picture of the aircraft, the crew, the environment and the mission. Its enemies are <b>fixation</b> (staring at the camera feed), <b>complacency</b> (the hundredth identical flight), and <b>task saturation</b>.</li>
+    <li>Watch for external pressure: a paying client, a closing weather window, or daylight running out. "Get-there-itis" causes accidents in unmanned aviation exactly as it does in manned.</li>
+  </ul>
+
+  <h2>Physiology <span class="tag">UA.V.E</span></h2>
+  <ul>
+    <li><b>Vision:</b> the eye's central cone vision is best in daylight; the peripheral rods do the work at night. At night, use <b>off-center viewing</b> &mdash; scan 10&ndash;15&deg; off to the side of the object, because the center of your vision has a night blind spot. Full <b>dark adaptation takes about 30 minutes</b>, and bright white light destroys it in seconds.</li>
+    <li><b>Scanning for traffic:</b> use a series of short, regularly spaced eye movements in roughly 10&deg; sectors, pausing at each to focus. An aircraft on a collision course shows <b>no apparent relative motion</b> &mdash; it just grows larger in one spot on your windscreen.</li>
+    <li><b>Dehydration</b> causes headache, drowsiness, dizziness and impaired judgment. Heat, wind and sun on a field site produce it fast. <b>Heatstroke</b> follows if untreated.</li>
+    <li><b>Hyperventilation</b> from stress produces dizziness, tingling, and a sense of suffocation. Fix it by slowing the breathing rate and talking aloud.</li>
+    <li><b>Stress and fatigue</b> narrow attention and degrade decision quality. Acute fatigue comes from a hard day; chronic fatigue from sustained sleep debt and does not go away with one night's rest.</li>
+    <li><b>Drugs and alcohol:</b> 8 hours minimum after drinking, BAC under 0.04, and no medication that affects your faculties. Antihistamines, sleep aids and cold remedies are common offenders. When in doubt, don't fly.</li>
+    <li><b>Hypoxia and spatial disorientation</b> matter less to a pilot standing on the ground &mdash; but questions on the general effects of altitude and illness still appear.</li>
+  </ul>
+
+  <h2>Crew, site and security <span class="tag">UA.V.C</span></h2>
+  <ul>
+    <li>The <b>RPIC is the final authority</b> and must be designated before every flight. A person may manipulate the controls under the RPIC's direct supervision if the RPIC can immediately take direct control.</li>
+    <li>A <b>visual observer</b> must be able to communicate with the RPIC at all times by an effective means &mdash; voice, radio, or hand signals arranged in advance.</li>
+    <li>Run a <b>site survey</b>: launch and recovery zones, obstacles, overhead wires, terrain, people, vehicle traffic, RF interference, emergency landing areas, and the nearest way out.</li>
+    <li>Brief everyone: mission, roles, hazards, lost-link plan, abort criteria, who calls the abort (anyone should be able to).</li>
+    <li>Be alert to <b>GPS interference</b> near tall structures, canyons and metallic structures, and to intentional jamming or spoofing. Know how your aircraft behaves in ATTI mode with no GPS.</li>
+    <li>Cyber and data security: keep firmware current, control who has access to the control station, and treat imagery of people and property with care &mdash; privacy is regulated by state law, not the FAA.</li>
+  </ul>
+</section>
+
+<!-- ================= 08 MAINTENANCE ================= -->
+<section class="sheet" id="p8">
+  <div class="sheet-head">
+    <div class="eyebrow">Sheet 08 &middot; Area of Operation V</div>
+    <h1>Maintenance, Emergencies &amp; Night</h1>
+    <p>The rest of Area V: keeping the aircraft in a condition for safe operation, and what to do when it stops being in one.</p>
+  </div>
+
+  <h2>Maintenance &amp; inspection <span class="tag">UA.V.F</span></h2>
+  <ul>
+    <li>There is no FAA-mandated maintenance schedule for Part 107 aircraft and no airworthiness certificate. The <b>manufacturer's recommended schedule</b> is the standard, and if there isn't one, you establish your own based on how the aircraft is used.</li>
+    <li><b>Scheduled</b> maintenance is done on a calendar or cycle interval. <b>Unscheduled</b> maintenance is triggered by a discrepancy &mdash; a hard landing, a warning, unusual vibration.</li>
+    <li><b>Who may perform it:</b> the remote pilot or owner may do the maintenance themselves if qualified. If the work is beyond your ability or the manufacturer requires it, use the manufacturer or a qualified technician. There is no A&amp;P requirement for sUAS &mdash; but the RPIC still owns the decision that the aircraft is safe.</li>
+    <li><b>Record keeping</b> is not required by Part 107 but is strongly recommended: dates, flight hours or cycles, discrepancies found, corrective action, who did it, and the aircraft it applies to. Records matter for insurance, for clients, and if the FAA ever investigates.</li>
+    <li>If the aircraft cannot be returned to a condition for safe operation, <b>ground it</b>. Never fly a known discrepancy because the mission is scheduled.</li>
+  </ul>
+
+  <h2>Preflight inspection <span class="tag">every flight, every time</span></h2>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Aircraft</h3>
+      <ul style="margin-bottom:0">
+        <li>Airframe for cracks, loose arms and fasteners</li>
+        <li>Propellers for nicks, chips, warping; correct rotation direction and matched set</li>
+        <li>Motors spin freely, no grinding, no debris</li>
+        <li>Battery: charge level, no swelling or puffing, no damage, secure latch and connectors</li>
+        <li>Payload and gimbal securely attached, lens clear, CG within limits</li>
+        <li>Firmware current, storage card seated and with capacity</li>
+        <li>Anti-collision lighting for night ops, visible 3 SM</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Control station &amp; environment</h3>
+      <ul style="margin-bottom:0">
+        <li>Controller charged, sticks and switches free, antennas positioned</li>
+        <li>Control link and video link verified before launch</li>
+        <li>GPS lock, home point set, RTH altitude above the tallest obstacle</li>
+        <li>Compass and IMU calibration if the site or aircraft calls for it</li>
+        <li>Airspace and authorization confirmed; NOTAMs and TFRs checked</li>
+        <li>Weather at the site; wind at altitude, not just at the ground</li>
+        <li>Crew briefed; bystanders and hazards identified; landing zone clear</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Batteries <span class="tag">the most common source of trouble</span></h2>
+  <ul>
+    <li>Lithium polymer cells are damaged by over-discharge, over-charge, physical impact and heat. A <b>puffed or swollen pack is retired, not flown</b>.</li>
+    <li>Charge and store at room temperature, on a non-flammable surface, unattended charging avoided. Store at partial (storage) charge, not full, for long periods.</li>
+    <li>Cold weather cuts usable capacity significantly &mdash; pre-warm packs and expect earlier low-voltage warnings.</li>
+    <li>A LiPo fire is a chemical fire that self-sustains. Carry a suitable extinguisher and a fire-resistant bag; plan to smother and isolate rather than to save the pack.</li>
+    <li>Track cycles and retire packs on the manufacturer's schedule. Battery failure is the leading cause of unplanned landings and flyaways.</li>
+  </ul>
+
+  <h2>Emergency procedures <span class="tag">UA.V.C, 107.21</span></h2>
+  <table>
+    <tr><th>Situation</th><th>Response</th></tr>
+    <tr><td><b>Lost link / loss of control</b></td><td>Know your aircraft's programmed behavior in advance &mdash; hover, return to home, or land. Move to regain the link, keep visual contact, warn people beneath the aircraft, and be ready to terminate the flight.</td></tr>
+    <tr><td><b>Flyaway</b></td><td>Attempt to regain control and to terminate flight; alert bystanders; note the direction and last known position. If it enters controlled airspace or causes injury or damage, report it.</td></tr>
+    <tr><td><b>Low battery</b></td><td>Land immediately at the nearest safe spot. Do not try to make it back across a hazard on a warning.</td></tr>
+    <tr><td><b>Loss of GPS</b></td><td>Expect drift. Fly manually (ATTI), reduce altitude, and land if you cannot hold position.</td></tr>
+    <tr><td><b>Manned aircraft approaching</b></td><td>You always yield. Descend and land, or move well clear. A low helicopter gives you almost no warning.</td></tr>
+    <tr><td><b>In-flight emergency</b></td><td><b>107.21</b> lets you deviate from any Part 107 rule to the extent necessary to meet the emergency. If the Administrator requests it, submit a <b>written report</b> of the deviation.</td></tr>
+  </table>
+  <div class="note red">
+    <span class="lbl">After an accident</span>
+    <p>Report to the FAA within <b>10 calendar days</b> if there was serious injury, loss of consciousness, or at least <b>$500</b> in damage to property other than the aircraft. Preserve the aircraft, the logs and the flight data &mdash; and don't post about it before you understand what happened.</p>
+  </div>
+
+  <h2>Night operations checklist <span class="tag">107.29</span></h2>
+  <ul>
+    <li>Anti-collision lighting visible for <b>3 statute miles</b>, flash rate sufficient to avoid collision, on for the whole flight in darkness or civil twilight.</li>
+    <li>Preflight in daylight if possible, or with adequate lighting. Walk the site before dark to find wires, poles and drop-offs.</li>
+    <li>Give yourself <b>30 minutes</b> to dark-adapt; use red or low-intensity white light at the control station.</li>
+    <li>Use <b>off-center viewing</b> to spot the aircraft and other traffic; a light directly ahead may be invisible in your night blind spot.</li>
+    <li>Learn manned aircraft lighting so you can tell where the traffic is going: <b>red on the left wingtip, green on the right, white at the tail</b>. Red and green together with white below means it's coming toward you.</li>
+    <li>Depth perception is poor at night &mdash; rely on the aircraft's telemetry for altitude and distance, and keep the mission simple.</li>
+  </ul>
+</section>
+
+<!-- ================= 09 CRAM ================= -->
+<section class="sheet" id="p9">
+  <div class="sheet-head">
+    <div class="eyebrow">Sheet 09 &middot; The night before</div>
+    <h1>Numbers, Mnemonics &amp; Traps</h1>
+    <p>If you only read one sheet in the parking lot, read this one.</p>
+  </div>
+
+  <h2>Every number on the exam <span class="tag">learn cold</span></h2>
+  <table>
+    <tr><th>Value</th><th>What it is</th></tr>
+    <tr><td class="num">400 ft AGL</td><td>Max altitude &mdash; or 400 ft above a structure within 400 ft of it</td></tr>
+    <tr><td class="num">100 mph / 87 kt</td><td>Max groundspeed</td></tr>
+    <tr><td class="num">3 SM</td><td>Minimum visibility from the control station</td></tr>
+    <tr><td class="num">500 ft / 2,000 ft</td><td>Cloud clearance: below / horizontal</td></tr>
+    <tr><td class="num">55 lb</td><td>Max total takeoff weight</td></tr>
+    <tr><td class="num">0.55 lb (250 g)</td><td>Category 1 ops-over-people threshold. <b>Not</b> a registration exemption for you &mdash; the 0.55 lb break applies only to recreational flying</td></tr>
+    <tr><td class="num">11 ft-lb / 25 ft-lb</td><td>Category 2 / Category 3 kinetic energy limits</td></tr>
+    <tr><td class="num">3 SM</td><td>Anti-collision light visibility for night</td></tr>
+    <tr><td class="num">$500 / 10 days</td><td>Property damage threshold and accident reporting window</td></tr>
+    <tr><td class="num">8 hours / 0.04</td><td>Bottle to throttle / max blood alcohol concentration</td></tr>
+    <tr><td class="num">16 / 13</td><td>Minimum age to hold a remote pilot certificate / to register a drone</td></tr>
+    <tr><td class="num">24 months</td><td>Recurrent training interval</td></tr>
+    <tr><td class="num">3 years / $5</td><td>Registration validity and fee</td></tr>
+    <tr><td class="num">30 min</td><td>Civil twilight window before sunrise / after sunset</td></tr>
+    <tr><td class="num">3 NM / 3,000 AGL</td><td>Stadium TFR radius and ceiling, 1 hour before to 1 hour after</td></tr>
+    <tr><td class="num">20 NM</td><td>Minimum distance from a thunderstorm</td></tr>
+    <tr><td class="num">15&deg;C / 29.92</td><td>Standard sea-level temperature and pressure</td></tr>
+    <tr><td class="num">2&deg;C / 1,000 ft</td><td>Standard temperature lapse rate</td></tr>
+    <tr><td class="num">60&deg; bank = 2G</td><td>Load factor in a steep turn</td></tr>
+    <tr><td class="num">1,500 ft AGL</td><td>MTR split: 4 digits below, 3 digits above</td></tr>
+    <tr><td class="num">60 / 70% / 2 hr</td><td>Questions, passing score, time limit</td></tr>
+    <tr><td class="num">14 days</td><td>Wait before retesting after a failure</td></tr>
+  </table>
+
+  <h2>Mnemonics <span class="tag">write these on the scratch paper first</span></h2>
+  <div class="grid g2">
+    <div class="card"><h3>IMSAFE</h3><p style="margin:0">Illness, Medication, Stress, Alcohol, Fatigue, Emotion</p></div>
+    <div class="card"><h3>PAVE</h3><p style="margin:0">Pilot, Aircraft, enVironment, External pressures</p></div>
+    <div class="card"><h3>DECIDE</h3><p style="margin:0">Detect, Estimate, Choose, Identify, Do, Evaluate</p></div>
+    <div class="card"><h3>5 hazardous attitudes</h3><p style="margin:0">Anti-authority, Impulsivity, Invulnerability, Macho, Resignation</p></div>
+    <div class="card"><h3>Cloud cover</h3><p style="margin:0">FEW 1&ndash;2 &middot; SCT 3&ndash;4 &middot; BKN 5&ndash;7 &middot; OVC 8 eighths. Ceiling = lowest BKN or OVC</p></div>
+    <div class="card"><h3>Chart colors</h3><p style="margin:0">Blue = towered / regulatory. Magenta = non-towered / where control ends. Solid = B and C. Dashed = D and E-surface</p></div>
+  </div>
+
+  <h2>Traps that catch people <span class="tag">read the question twice</span></h2>
+  <ul>
+    <li><b>AGL vs MSL.</b> Your limit is AGL; the chart is MSL. Add the field elevation before you compare.</li>
+    <li><b>Hundreds of feet.</b> A <span class="mono">25</span> in a dashed box is 2,500 ft, not 25 ft. A runway <span class="mono">72</span> is 7,200 ft.</li>
+    <li><b>Zulu time.</b> Convert before you answer a "what time locally" question, and mind daylight saving.</li>
+    <li><b>True vs magnetic wind.</b> METAR and TAF winds are true; tower and ATIS winds spoken over the radio are magnetic.</li>
+    <li><b>Night is legal now.</b> Any answer that says you need a waiver for night flight is a stale answer &mdash; you need anti-collision lighting instead.</li>
+    <li><b>The tower can't authorize you.</b> Authorization comes through LAANC or DroneZone, even if you can see the controller from where you're standing.</li>
+    <li><b>A shelf overhead isn't a wall.</b> Under a Class B or C shelf whose floor is above you, the surface airspace may well be Class G &mdash; no authorization needed. Check what's at the <em>surface</em>.</li>
+    <li><b>"Sustained flight" vs "transiting"</b> decides the ops-over-people answers. So does whether it's an open-air assembly.</li>
+    <li><b>Serious injury and $500</b> are two separate triggers for the same 10-day report. Damage to your own drone doesn't count.</li>
+    <li><b>Hazmat and the 55 lb limit cannot be waived.</b> Most of the operating limitations can.</li>
+    <li>When two answers look right, pick the one that is <b>more conservative and more specific</b> to the regulation. The FAA's answer is almost never the aggressive one.</li>
+  </ul>
+
+  <h2>Last 48 hours <span class="tag">study plan</span></h2>
+  <ul>
+    <li>Work the sectional excerpts in FAA-CT-8080-2 until airspace identification is automatic. That's the difference between passing and failing.</li>
+    <li>Take full 60-question timed practice exams, not flashcard drills, and score 85&ndash;90% consistently before you book.</li>
+    <li>Review every missed question by its ACS code, not by memorizing the answer.</li>
+    <li>Reread Area V &mdash; Operations. It is the biggest slice and the easiest to over-trust.</li>
+    <li>Sleep. IMSAFE applies to the test, too.</li>
+  </ul>
+</section>
+
+</main>
+</div>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.navlink'));
+  var sheets = Array.prototype.slice.call(document.querySelectorAll('.sheet'));
+  var i = 0;
+
+  function go(n){
+    if(n < 0) n = 0;
+    if(n > sheets.length - 1) n = sheets.length - 1;
+    i = n;
+    sheets.forEach(function(s,x){ s.classList.toggle('is-on', x === i); });
+    links.forEach(function(l,x){
+      l.classList.toggle('is-on', x === i);
+      l.setAttribute('aria-current', x === i ? 'true' : 'false');
+    });
+    window.scrollTo({top:0, behavior:'auto'});
+  }
+
+  links.forEach(function(l,x){ l.addEventListener('click', function(){ go(x); }); });
+
+  document.addEventListener('keydown', function(e){
+    if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if(e.key === 'ArrowRight') go(i + 1);
+    if(e.key === 'ArrowLeft') go(i - 1);
+  });
+
+  // prev / next footer on every sheet
+  sheets.forEach(function(s,x){
+    var nav = document.createElement('div');
+    nav.className = 'footnav';
+    var prev = document.createElement('button');
+    prev.className = 'btn'; prev.textContent = '\u2190 Previous sheet';
+    prev.disabled = (x === 0);
+    prev.style.visibility = x === 0 ? 'hidden' : 'visible';
+    prev.addEventListener('click', function(){ go(x - 1); });
+    var next = document.createElement('button');
+    next.className = 'btn'; next.textContent = 'Next sheet \u2192';
+    next.style.visibility = x === sheets.length - 1 ? 'hidden' : 'visible';
+    next.addEventListener('click', function(){ go(x + 1); });
+    nav.appendChild(prev); nav.appendChild(next);
+    s.appendChild(nav);
+  });
+
+  /* ---------------- search ---------------- */
+  var input    = document.getElementById('q');
+  var results  = document.getElementById('results');
+  var resIn    = document.getElementById('results-in');
+  var counter  = document.getElementById('hitcount');
+  var prevHit  = document.getElementById('hitprev');
+  var nextHit  = document.getElementById('hitnext');
+  var hits = [], hitIdx = -1, timer = null;
+
+  function labelOf(x){
+    var em = links[x].querySelector('em');
+    return em ? em.childNodes[0].nodeValue.trim() : ('Sheet ' + (x + 1));
+  }
+
+  function clearHits(){
+    var ms = document.querySelectorAll('mark.hl');
+    for(var j = 0; j < ms.length; j++){
+      var m = ms[j], p = m.parentNode;
+      p.replaceChild(document.createTextNode(m.textContent), m);
+      p.normalize();
+    }
+    hits = []; hitIdx = -1;
+  }
+
+  function markSheet(root, term, sheetIdx){
+    var needle = term.toLowerCase();
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(n){
+        var p = n.parentNode;
+        if(!p || !n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        if(p.nodeName === 'SCRIPT' || p.nodeName === 'STYLE') return NodeFilter.FILTER_REJECT;
+        // skip SVG (an HTML <mark> inside SVG would swallow the label) and the prev/next bar
+        if(p.closest && (p.closest('svg') || p.closest('.footnav'))) return NodeFilter.FILTER_REJECT;
+        return n.nodeValue.toLowerCase().indexOf(needle) > -1
+          ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    var nodes = [], n;
+    while((n = walker.nextNode())) nodes.push(n);
+
+    nodes.forEach(function(node){
+      var cur = node;
+      while(true){
+        var at = cur.nodeValue.toLowerCase().indexOf(needle);
+        if(at < 0) break;
+        var hit  = cur.splitText(at);
+        var rest = hit.splitText(term.length);
+        var mk = document.createElement('mark');
+        mk.className = 'hl';
+        hit.parentNode.replaceChild(mk, hit);
+        mk.appendChild(hit);
+        hits.push({el: mk, sheet: sheetIdx});
+        cur = rest;
+      }
+    });
+  }
+
+  function goHit(k){
+    if(!hits.length) return;
+    if(k < 0) k = hits.length - 1;
+    if(k >= hits.length) k = 0;
+    hitIdx = k;
+    hits.forEach(function(h){ h.el.classList.remove('on'); });
+    var h = hits[hitIdx];
+    if(h.sheet !== i) go(h.sheet);
+    h.el.classList.add('on');
+    h.el.scrollIntoView({block: 'center', behavior: 'auto'});
+    counter.textContent = (hitIdx + 1) + '/' + hits.length;
+  }
+
+  function runSearch(){
+    var term = input.value.trim();
+    clearHits();
+    resIn.innerHTML = '';
+
+    if(term.length < 2){
+      results.hidden = true;
+      counter.textContent = '';
+      prevHit.disabled = nextHit.disabled = true;
+      return;
+    }
+
+    sheets.forEach(function(s, x){ markSheet(s, term, x); });
+
+    if(!hits.length){
+      results.hidden = false;
+      var none = document.createElement('span');
+      none.className = 'lead';
+      none.textContent = 'No match for "' + term + '"';
+      resIn.appendChild(none);
+      counter.textContent = '0';
+      prevHit.disabled = nextHit.disabled = true;
+      return;
+    }
+
+    var per = {};
+    hits.forEach(function(h){ per[h.sheet] = (per[h.sheet] || 0) + 1; });
+
+    results.hidden = false;
+    var lead = document.createElement('span');
+    lead.className = 'lead';
+    lead.textContent = hits.length + (hits.length === 1 ? ' match in' : ' matches in');
+    resIn.appendChild(lead);
+
+    Object.keys(per).sort(function(a,b){ return a - b; }).forEach(function(key){
+      var x = Number(key);
+      var chip = document.createElement('button');
+      chip.className = 'chip';
+      chip.innerHTML = labelOf(x) + '<b>' + per[x] + '</b>';
+      chip.addEventListener('click', function(){
+        for(var j = 0; j < hits.length; j++){
+          if(hits[j].sheet === x){ goHit(j); break; }
+        }
+      });
+      resIn.appendChild(chip);
+    });
+
+    prevHit.disabled = nextHit.disabled = false;
+    counter.textContent = hits.length;
+    goHit(0);
+  }
+
+  input.addEventListener('input', function(){
+    clearTimeout(timer);
+    timer = setTimeout(runSearch, 130);
+  });
+
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ e.preventDefault(); goHit(e.shiftKey ? hitIdx - 1 : hitIdx + 1); }
+    if(e.key === 'Escape'){ input.value = ''; runSearch(); input.blur(); }
+  });
+
+  nextHit.addEventListener('click', function(){ goHit(hitIdx + 1); });
+  prevHit.addEventListener('click', function(){ goHit(hitIdx - 1); });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === '/' && e.target !== input){ e.preventDefault(); input.focus(); input.select(); }
+  });
+
+  /* ---------------- interactive airspace diagram ---------------- */
+  var aspSvg = document.getElementById('aspSvg');
+  if(aspSvg){
+    var ASP = {
+      A: {tone:'b', name:'Class A', tag:'Positive control &mdash; irrelevant in practice, tested anyway',
+        rows:[
+          ['Where','18,000 ft MSL up to and including FL600, over the entire contiguous United States and 12 NM offshore.'],
+          ['On the chart','Not depicted. There is no boundary to find because it is everywhere above 18,000 MSL.'],
+          ['Authorization','None available. An sUAS may not operate here, and 400 ft AGL keeps you nowhere near it.'],
+          ['Watch for','Answers that try to make Class A sound reachable. If a question involves your legal altitude, Class A is a distractor.']
+        ]},
+      B: {tone:'b', name:'Class B', tag:'Busiest airports &mdash; the upside-down wedding cake',
+        rows:[
+          ['Where','Surface up to roughly 10,000 ft MSL around the nation\u2019s busiest airports. Tiered shelves step outward and upward, so the airspace over your head may start well above the ground.'],
+          ['On the chart','Solid blue lines. Stacked figures in hundreds of feet MSL: 100/40 means a 10,000 ft ceiling over a 4,000 ft floor. A dashed blue 30 NM ring is the Mode C veil \u2014 an equipment rule for manned aircraft, not a limit on you.'],
+          ['Authorization','Required before you fly. Use LAANC through an approved app, or apply in DroneZone. The tower cannot approve you over the phone.'],
+          ['Watch for','Standing under a shelf whose floor is 4,000 MSL. The surface there is often Class G, and no authorization is needed. Always read the airspace at the surface, not the airspace overhead.']
+        ]},
+      C: {tone:'m', name:'Class C', tag:'Radar-served airports with a control tower',
+        rows:[
+          ['Where','Surface to about 4,000 ft AGL. A 5 NM inner core from the surface up, plus a shelf out to 10 NM whose floor sits around 1,200 ft AGL.'],
+          ['On the chart','Solid magenta circles with stacked figures in hundreds of feet MSL, for example 41/12.'],
+          ['Authorization','Required in the core and anywhere the airspace reaches the surface. LAANC or DroneZone.'],
+          ['Watch for','The shelf again \u2014 under it you are usually in Class G. And note the color rule: solid magenta lines mean Class C, while a magenta vignette means a Class E floor at 700 AGL. Very different answers.']
+        ]},
+      D: {tone:'b', name:'Class D', tag:'Smaller airports with an operating control tower',
+        rows:[
+          ['Where','Surface to about 2,500 ft AGL, roughly a 4 NM radius, shaped to fit the instrument procedures.'],
+          ['On the chart','Dashed blue outline. The ceiling appears in a dashed box in hundreds of feet MSL, so [25] means 2,500 ft MSL.'],
+          ['Authorization','Required whenever the airspace is active. LAANC or DroneZone.'],
+          ['Watch for','When the tower closes, the airspace usually reverts to Class E or G \u2014 but your FAA authorization requirement is tied to how the airspace is charted and published, so get the authorization anyway. Chart notes and the Chart Supplement give the tower\u2019s hours.']
+        ]},
+      E: {tone:'m', name:'Class E', tag:'All the other controlled airspace',
+        rows:[
+          ['Where','Everything controlled that is not A, B, C or D. The floor is typically 700 ft AGL, 1,200 ft AGL, or 14,500 ft MSL. At some airports it comes all the way down to the surface.'],
+          ['On the chart','Fuzzy magenta vignette = floor at 700 AGL. Fuzzy blue vignette = floor at 1,200 AGL. Dashed magenta = Class E to the surface. A blue or magenta zipper line marks where the floor changes.'],
+          ['Authorization','Only where Class E extends to the surface. A 700 or 1,200 ft floor leaves Class G beneath it, and you fly there without asking anyone.'],
+          ['Watch for','The single most common airspace mistake on the exam: treating a magenta vignette as if it required authorization. It does not. Dashed magenta does.']
+        ]},
+      G: {tone:'g', name:'Class G', tag:'Uncontrolled \u2014 where most Part 107 flying happens',
+        rows:[
+          ['Where','Surface up to the base of the overlying Class E \u2014 usually 700 or 1,200 ft AGL, so your entire 400 ft envelope is normally inside it.'],
+          ['On the chart','Nothing. It is what is left when no other class is drawn.'],
+          ['Authorization','None required. ATC provides no separation service here.'],
+          ['Watch for','\u201cUncontrolled\u201d does not mean unregulated. Every other Part 107 rule still applies: 400 ft, visual line of sight, 3 SM visibility, 500 below and 2,000 horizontal from clouds, yield to all aircraft.']
+        ]}
+    };
+
+    var groups  = Array.prototype.slice.call(aspSvg.querySelectorAll('.asp'));
+    var aspKey   = document.getElementById('aspKey');
+    var aspTitle = document.getElementById('aspTitle');
+    var aspSub   = document.getElementById('aspSub');
+    var aspRows  = document.getElementById('aspRows');
+
+    function pick(cls){
+      var d = ASP[cls];
+      if(!d) return;
+      groups.forEach(function(g){ g.classList.toggle('sel', g.getAttribute('data-cls') === cls); });
+      aspSvg.classList.add('picked');
+      aspKey.className = 'asp-key ' + d.tone;
+      aspKey.textContent = cls;
+      aspTitle.textContent = d.name;
+      aspSub.innerHTML = d.tag;
+      aspRows.innerHTML = d.rows.map(function(r){
+        return '<dt>' + r[0] + '</dt><dd>' + r[1] + '</dd>';
+      }).join('');
+    }
+
+    groups.forEach(function(g){
+      var cls = g.getAttribute('data-cls');
+      g.addEventListener('click', function(){ pick(cls); });
+      g.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(cls); }
+      });
+    });
+  }
+
+  document.getElementById('printbtn').addEventListener('click', function(){ window.print(); });
+})();
+</script>
+</body>
+</html>
