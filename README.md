@@ -1,2 +1,2 @@
-# part107prep
+# Part 107 Cheatsheet
 Interactive study guide for the FAA Part 107 commercial drone pilot exam — all five ACS areas across nine searchable sheets, with an interactive airspace diagram and print-to-packet.
