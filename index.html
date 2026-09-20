@@ -267,7 +267,22 @@ mark.hl.on{background:var(--mag);color:var(--paper);box-shadow:0 0 0 2px rgba(16
   .sheet{display:block!important;page-break-after:always}
   .card,table,figure,.note{page-break-inside:avoid}
   h2{page-break-after:avoid}
+  .sitefoot{page-break-before:always}
 }
+
+/* ---------- disclaimer footer ---------- */
+.sitefoot{
+  border-top:2px solid var(--ink);background:var(--paper);
+}
+.sitefoot-in{
+  max-width:1240px;margin:0 auto;padding:18px 20px 28px;
+  font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--ink-2);
+}
+.sitefoot b{
+  font-family:var(--disp);font-weight:700;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink);display:block;margin-bottom:6px;
+}
+.sitefoot p{margin:0;max-width:88ch}
 </style>
 </head>
 <body>
@@ -1439,6 +1454,13 @@ mark.hl.on{background:var(--mag);color:var(--paper);box-shadow:0 0 0 2px rgba(16
 
 </main>
 </div>
+
+<footer class="sitefoot">
+  <div class="sitefoot-in">
+    <b>Disclaimer</b>
+    <p>This is an independent study aid and is not affiliated with, endorsed by, or an official publication of the Federal Aviation Administration (FAA) or any government agency. It is provided for educational purposes only and may contain errors, omissions, or outdated information. It is not a substitute for the current Title 14 CFR Part 107, the FAA Airman Certification Standards (FAA-S-ACS-10B), official sectional charts, NOTAMs, or the guidance of a certificated instructor. Regulations change &mdash; always verify against official FAA sources before any flight or exam. As pilot in command, you are solely responsible for the safe and legal operation of your aircraft. No warranty is made as to accuracy, and no liability is accepted for any use of this material.</p>
+  </div>
+</footer>
 
 <script>
 (function(){
