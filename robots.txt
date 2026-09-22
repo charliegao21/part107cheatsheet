@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://unit19studio.com/part107/sitemap.xml
+Sitemap: https://unit19studio.com/part107cheatsheet/sitemap.xml

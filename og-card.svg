@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M28 0H0V28" fill="none" stroke="#171C21" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- paper ground + chart grid -->
+  <rect width="1200" height="630" fill="#EFE8D6"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- masthead bar -->
+  <rect x="0" y="0" width="1200" height="16" fill="#171C21"/>
+  <rect x="0" y="16" width="1200" height="4" fill="#A31F5F"/>
+
+  <!-- eyebrow -->
+  <text x="72" y="118" font-family="Consolas,'Courier New',monospace" font-size="22" letter-spacing="3" fill="#565E66">UAG &#183; REMOTE PILOT &#8211; sUAS &#183; ACS FAA-S-ACS-10B</text>
+
+  <!-- title -->
+  <text x="70" y="258" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="132" letter-spacing="1" fill="#171C21">PART <tspan fill="#A31F5F">107</tspan></text>
+  <text x="72" y="352" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="92" letter-spacing="2" fill="#171C21">CHEAT SHEET</text>
+
+  <!-- subtitle -->
+  <text x="74" y="418" font-family="Arial,Helvetica,sans-serif" font-weight="400" font-size="31" fill="#171C21">The FAA commercial drone exam, in nine sheets.</text>
+
+  <!-- areas list -->
+  <text x="74" y="470" font-family="Consolas,'Courier New',monospace" font-size="23" letter-spacing="1" fill="#1B4F7D">Regulations &#183; Airspace &#183; Weather &#183; Operations</text>
+
+  <!-- url -->
+  <rect x="72" y="536" width="20" height="20" fill="#A31F5F"/>
+  <text x="104" y="553" font-family="Consolas,'Courier New',monospace" font-weight="700" font-size="26" fill="#171C21">unit19studio.com/part107cheatsheet</text>
+
+  <!-- drone motif (from favicon) -->
+  <g transform="translate(812,150) scale(5.05)">
+    <rect x="2.5" y="2.5" width="59" height="59" rx="14" fill="#EFE8D6" stroke="#1B4F7D" stroke-width="3"/>
+    <g fill="#FBF8F0" stroke="#1B4F7D" stroke-width="3.5">
+      <circle cx="17" cy="17" r="9"/>
+      <circle cx="47" cy="17" r="9"/>
+      <circle cx="17" cy="47" r="9"/>
+      <circle cx="47" cy="47" r="9"/>
+    </g>
+    <rect x="23" y="23" width="18" height="18" rx="5" fill="#A31F5F"/>
+  </g>
+</svg>
