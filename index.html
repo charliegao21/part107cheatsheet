@@ -318,10 +318,14 @@ mark.hl.on{background:var(--mag);color:var(--paper);box-shadow:0 0 0 2px rgba(16
   body{background:#fff;font-size:10.5pt}
   .masthead,.chartnav,.footnav,.navhint{display:none!important}
   .shell{display:block;max-width:none;padding:0}
-  .sheet{display:block!important;page-break-after:always}
+  /* force every sheet fully visible — no fade animation, which can otherwise
+     be captured mid-transition and print blank/white pages */
+  .sheet{display:block!important;animation:none!important;opacity:1!important;transform:none!important;page-break-after:always}
+  .sheet:last-of-type{page-break-after:auto}
   .card,table,figure,.note{page-break-inside:avoid}
   h2{page-break-after:avoid}
-  .sitefoot{page-break-before:always}
+  /* keep the footer flowing after the last sheet instead of forcing a blank page before it */
+  .sitefoot{page-break-before:auto;page-break-inside:avoid}
 }
 
 /* ---------- disclaimer footer ---------- */
